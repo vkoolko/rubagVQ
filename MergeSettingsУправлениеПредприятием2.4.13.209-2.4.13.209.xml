@@ -1,0 +1,2312 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Settings xmlns="http://v8.1c.ru/8.3/config/merge/settings" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" platformVersion="8.3.11">
+	<MainConfiguration>
+		<Name>УправлениеПредприятием</Name>
+		<Version>2.4.13.209</Version>
+		<Vendor>Фирма "1С"</Vendor>
+	</MainConfiguration>
+	<SecondConfiguration>
+		<Name>УправлениеПредприятием</Name>
+		<Version>2.4.13.209</Version>
+		<Vendor>Фирма "1С"</Vendor>
+	</SecondConfiguration>
+	<Parameters>
+		<ConfigurationsRelation>ConfigurationsNotRelated</ConfigurationsRelation>
+		<AllowMainConfigurationObjectDeletion>false</AllowMainConfigurationObjectDeletion>
+		<CopyObjectsMode>false</CopyObjectsMode>
+	</Parameters>
+	<Objects>
+		<Object fullName="Catalog.РУБЭГ_СтатьиРасходов.Form.ФормаЭлемента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>GetFromSecondConfiguration</MergeRule>
+					<FormModule>
+						<MergeRule>GetFromSecondConfiguration</MergeRule>
+						<Module>
+							<Methods>
+								<MainArea>
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch/>
+								</MainArea>
+								<Method name="ПоказатьСлужебныеРеквизиты" nameInSecondConfiguration="ПоказатьСлужебныеРеквизиты">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -3,6 +3,5 @@
+ Процедура ПоказатьСлужебныеРеквизиты(Команда)
+ 	
+ 	Элементы.ФормаПоказатьСлужебныеРеквизиты.Пометка = Не Элементы.ФормаПоказатьСлужебныеРеквизиты.Пометка;
+-	Элементы.Имя.Видимость = Элементы.ФормаПоказатьСлужебныеРеквизиты.Пометка;
+ 	
+ КонецПроцедуры
+</Patch>
+								</Method>
+								<Method name="ПриОткрытии">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -1,1 +1,5 @@
+ 
++&amp;НаКлиенте
++Процедура ПриОткрытии(Отказ)
++	УправлениеВидимостьюЭФ();
++КонецПроцедуры
+</Patch>
+								</Method>
+								<Method name="ПриСозданииНаСервере" nameInSecondConfiguration="ПриСозданииНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -3,5 +3,6 @@
+ Процедура ПриСозданииНаСервере(Отказ, СтандартнаяОбработка)
+ 	
+ 	СобытияФорм.ПриСозданииНаСервере(ЭтаФорма, Отказ, СтандартнаяОбработка);
++	
+ 
+ КонецПроцедуры
+</Patch>
+								</Method>
+								<Method name="РасчетПоФормулеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -1,1 +1,5 @@
+ 
++&amp;НаКлиенте
++Процедура РасчетПоФормулеПриИзменении(Элемент)
++	УправлениеВидимостьюЭФ();
++КонецПроцедуры
+</Patch>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФ">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -1,1 +1,8 @@
+ 
++&amp;НаСервере
++Процедура УправлениеВидимостьюЭФ()
++
++	Элементы.Имя.Видимость = Элементы.ФормаПоказатьСлужебныеРеквизиты.Пометка;
++	Элементы.ФормулаРасчета.Видимость = Объект.РасчетПоФормуле;
++
++КонецПроцедуры
+</Patch>
+								</Method>
+							</Methods>
+						</Module>
+					</FormModule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.РУБЭГ_СтатьиРасходов.Form.ФормаСписка">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.Рубэг_НастройкаОтраженияЗППоФондам">
+			<Properties>
+				<Property name="DefaultObjectForm">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.Числа_НоваяАнкета">
+			<Properties>
+				<Property name="ObjectModule">
+					<MergeRule>GetFromSecondConfiguration</MergeRule>
+					<Module>
+						<Methods>
+							<VariableDeclarationArea>
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+								<Patch>@@ -1,2 +1,4 @@
+ 
+ Перем мВалюта;
++Перем СуммаМатериалов Экспорт;
++Перем СуммаРабот Экспорт;
+</Patch>
+							</VariableDeclarationArea>
+							<MainArea>
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</MainArea>
+							<Method name="ПолучитьВыборкуПоСтатьямВложений">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+								<Patch>@@ -1,1 +1,36 @@
+ 
++Функция ПолучитьВыборкуПоСтатьямВложений()
++
++	Запрос = Новый Запрос;
++	УстановитьПараметрыЗапросаПоСтатьямВложений(Запрос);
++	Запрос.Текст = 
++	"ВЫБРАТЬ
++	|	СтатьиРасходов.Ссылка КАК СтатьяРасходов,
++	|	ЕСТЬNULL(Рубэг_РасценкиСтатейРасходов.Величина, 0) КАК Величина,
++	|	ЕСТЬNULL(Рубэг_РасценкиСтатейРасходов.Процент, ЛОЖЬ) КАК Процент,
++	|	Рубэг_РасценкиСтатейРасходов.СтатьяРасходов КАК СтатьяРасходовПВХ,
++	|	Рубэг_РасценкиСтатейРасходов.Фонд.НаправлениеДеятельности КАК НаправлениеДеятельности,
++	|	СтатьиРасходов.РасчетПоФормуле КАК РасчетПоФормуле,
++	|	СтатьиРасходов.ФормулаРасчета КАК ФормулаРасчета,
++	|	ВЫБОР
++	|		КОГДА СтатьиРасходов.РасчетПоФормуле
++	|				И СтатьиРасходов.ФормулаРасчета ПОДОБНО ""%ОбщаяСтоимостьБезНДС%""
++	|			ТОГДА 10
++	|		ИНАЧЕ 0
++	|	КОНЕЦ КАК Порядок,
++	|	СтатьиРасходов.НеВходитВСтоимостьАкта КАК НеВходитВСтоимостьАкта,
++	|	Рубэг_РасценкиСтатейРасходов.СтатьяРасходов.Рубэг_Фонд КАК Фонд
++	|ИЗ
++	|	Справочник.РУБЭГ_СтатьиРасходов КАК СтатьиРасходов
++	|		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.Рубэг_РасценкиСтатейРасходов.СрезПоследних(&amp;Период, ) КАК Рубэг_РасценкиСтатейРасходов
++	|		ПО СтатьиРасходов.Ссылка = Рубэг_РасценкиСтатейРасходов.Статья
++	|ГДЕ
++	|	НЕ СтатьиРасходов.ЭтоГруппа
++	|	И Рубэг_РасценкиСтатейРасходов.Фонд.НаправлениеДеятельности В(&amp;МассивНаправлений)
++	|
++	|УПОРЯДОЧИТЬ ПО
++	|	Порядок";
++	
++	Возврат Запрос.Выполнить().Выбрать();
++	
++КонецФункции
+</Patch>
+							</Method>
+							<Method name="ПолучитьТаблицуСебестоимостиВРазрезеСтатейВложений">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+								<Patch>@@ -1,1 +1,65 @@
+ 
++Функция ПолучитьТаблицуСебестоимостиВРазрезеСтатейВложений() Экспорт
++	
++	ТаблицаСебестоимости = СебестоимостьПошива.ВыгрузитьКолонки();
++	ТаблицаСебестоимости.Колонки.Добавить("Анкета", Новый ОписаниеТипов("ДокументСсылка.Числа_НоваяАнкета"));
++	ТаблицаСебестоимости.Колонки.Добавить("Цена", ОбщегоНазначения.ОписаниеТипаЧисло(15,2));
++	ТаблицаСебестоимости.Колонки.Добавить("СебестоимостьПошива", ОбщегоНазначения.ОписаниеТипаЧисло(15,2));
++	ТаблицаСебестоимости.Колонки.Добавить("Фонд", Новый ОписаниеТипов("СправочникСсылка.Рубэг_Фонды"));
++	
++	#Область ПеременныеДляФормулСтатейВложений
++	Если ЗначениеЗаполнено(СпецификацияЗамены) И ПроизводственнаяСпецификация = СпецификацияЗамены Тогда
++		СуммаМатериалов  = МатериалыДереваПроизводство.Итог("СуммаНаПартию")/Количество;	
++		СуммаРабот		 = РаботыДереваПроизводство.Итог("СуммаНаПартию")/Количество;
++	Иначе
++		СуммаМатериалов  = МатериалыДереваПроизводство.Итог("Сумма");
++		СуммаРабот		 = РаботыДереваПроизводство.Итог("Сумма");
++	КонецЕсли;	
++	#КонецОбласти
++	
++	ВыборкаПоСтатьям = ПолучитьВыборкуПоСтатьямВложений();
++	Пока ВыборкаПоСтатьям.Следующий() Цикл
++		
++		Величина = ВыборкаПоСтатьям.Величина; //Для передачи в контекст формулы
++	
++		НоваяСтрока = ТаблицаСебестоимости.Добавить();
++		НоваяСтрока.Анкета = Ссылка;
++		ЗаполнитьЗначенияСвойств(НоваяСтрока, ВыборкаПоСтатьям);
++		Если ВыборкаПоСтатьям.РасчетПоФормуле Тогда
++			
++			Результат = 0;
++			Если ВыборкаПоСтатьям.Порядок &gt; 0 Тогда //Расчет от общей себестоимости пошива
++				ОбщаяСтоимостьБезНДС = ТаблицаСебестоимости.Итог("Сумма");
++				Выполнить(ВыборкаПоСтатьям.ФормулаРасчета);
++				НоваяСтрока.Сумма = Результат;
++			Иначе
++				Выполнить(ВыборкаПоСтатьям.ФормулаРасчета);
++				НоваяСтрока.Сумма = Результат;
++			КонецЕсли;	
++			
++		Иначе
++			//Берется как есть показатель из регистра
++			НоваяСтрока.Сумма = Величина;
++		КонецЕсли;	
++	
++	КонецЦикла; 
++
++	ТаблицаСебестоимости.Сортировать("СтатьяРасходов");
++	
++	Если Площадка = "Воронеж" Тогда
++		РасчетнаяЦена = СуммаМатериалов+ТаблицаСебестоимости.Итог("Сумма");
++		СтоимостьАкта = ТаблицаСебестоимости.Скопировать(ТаблицаСебестоимости.НайтиСтроки(Новый Структура("НеВходитВСтоимостьАкта", Ложь)),"Сумма").Итог("Сумма");
++	ИначеЕсли Площадка = "СтОскол" Тогда
++		РасчетнаяЦена = СуммаМатериалов+СуммаРабот+ТаблицаСебестоимости.Итог("Сумма");
++		СтоимостьАкта = СуммаРабот+ТаблицаСебестоимости.Скопировать(ТаблицаСебестоимости.НайтиСтроки(Новый Структура("НеВходитВСтоимостьАкта", Ложь)),"Сумма").Итог("Сумма");
++	Иначе
++		РасчетнаяЦена = 0;
++		СтоимостьАкта = 0;
++	КонецЕсли;	
++	
++	ТаблицаСебестоимости.ЗаполнитьЗначения(РасчетнаяЦена,"Цена");
++	ТаблицаСебестоимости.ЗаполнитьЗначения(СтоимостьАкта,"СебестоимостьПошива");
++	
++	Возврат ТаблицаСебестоимости;
++	
++КонецФункции
+</Patch>
+							</Method>
+							<Method name="ПолучитьТаблицуФактическихМатериалов" nameInSecondConfiguration="ПолучитьТаблицуФактическихМатериалов">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="ПолучитьТаблицуФактическихРабот" nameInSecondConfiguration="ПолучитьТаблицуФактическихРабот">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="ЗаписатьМатериалыДереваПроизводство" nameInSecondConfiguration="ЗаписатьМатериалыДереваПроизводство">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="ЗаписатьРаботыДереваПроизводство" nameInSecondConfiguration="ЗаписатьРаботыДереваПроизводство">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="ОбработкаПроведения" nameInSecondConfiguration="ОбработкаПроведения">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="ОбработкаПроверкиЗаполнения" nameInSecondConfiguration="ОбработкаПроверкиЗаполнения">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="ПередЗаписью" nameInSecondConfiguration="ПередЗаписью">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+								<Patch>@@ -1,8 +1,4 @@
+ 
+ Процедура ПередЗаписью(Отказ, РежимЗаписи, РежимПроведения)
+ 	
+-	ЗаписатьМатериалыДереваПроизводство();
+-	ЗаписатьРаботыДереваПроизводство();
+-	РассчитатьСебетоимостьПошива();
+-	
+ КонецПроцедуры
+</Patch>
+							</Method>
+							<Method name="ПриКопировании" nameInSecondConfiguration="ПриКопировании">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+							</Method>
+							<Method name="РассчитатьСебетоимостьПошива" nameInSecondConfiguration="РассчитатьСебетоимостьПошива">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+								<Patch>@@ -1,127 +1,9 @@
+ 
++// Процедура - Рассчитать себетоимость пошива
++//
+ Процедура РассчитатьСебетоимостьПошива() Экспорт
+ 
+-	СебестоимостьПошива.Очистить();
++	ТаблицаСебестоимостиПошива = ПолучитьТаблицуСебестоимостиВРазрезеСтатейВложений();
++	СебестоимостьПошива.Загрузить(ТаблицаСебестоимостиПошива);
+ 	
+-	Если ЗначениеЗаполнено(СпецификацияЗамены) И ПроизводственнаяСпецификация = СпецификацияЗамены Тогда
+-		СуммаМатериалов  = МатериалыДереваПроизводство.Итог("СуммаНаПартию")/Количество;	
+-		СуммаТехопераций = РаботыДереваПроизводство.Итог("СуммаНаПартию")/Количество;
+-	Иначе
+-		СуммаМатериалов  = МатериалыДереваПроизводство.Итог("Сумма");
+-		СуммаТехопераций = РаботыДереваПроизводство.Итог("Сумма");
+-	КонецЕсли;	
+-	
+-	Если Площадка = "СтОскол" Тогда
+-		
+-		Запрос = Новый Запрос;
+-		Запрос.Текст = 
+-		"ВЫБРАТЬ
+-		|	СтатьиРасходов.Ссылка КАК СтатьяРасходов,
+-		|	ЕСТЬNULL(Рубэг_РасценкиСтатейРасходов.Величина, 0) КАК Величина,
+-		|	ЕСТЬNULL(Рубэг_РасценкиСтатейРасходов.Процент, ЛОЖЬ) КАК Процент
+-		|ИЗ
+-		|	Справочник.РУБЭГ_СтатьиРасходов КАК СтатьиРасходов
+-		|		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.Рубэг_РасценкиСтатейРасходов.СрезПоследних(&amp;Период, ) КАК Рубэг_РасценкиСтатейРасходов
+-		|		ПО СтатьиРасходов.Ссылка = Рубэг_РасценкиСтатейРасходов.Статья
+-		|ГДЕ
+-		|	НЕ СтатьиРасходов.ЭтоГруппа
+-		|	И СтатьиРасходов.Ссылка В ИЕРАРХИИ(&amp;Группа)";
+-		Если ПошивКомплектовка = "Пошив" Тогда
+-			Запрос.УстановитьПараметр("Группа", Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000002"));
+-		ИначеЕсли ПошивКомплектовка = "Комплектовка" Тогда
+-			Запрос.УстановитьПараметр("Группа", Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000022"));
+-		ИначеЕсли ПошивКомплектовка = "ПошивКомплектовка" Тогда
+-			Массив = Новый Массив;
+-			Массив.Добавить(Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000002"));
+-			Массив.Добавить(Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000022"));
+-			Запрос.УстановитьПараметр("Группа", Массив);
+-		КонецЕсли;
+-		Запрос.УстановитьПараметр("Период", Дата);
+-		
+-		Выборка = Запрос.Выполнить().Выбрать();
+-		Пока Выборка.Следующий() Цикл
+-			
+-			СтрокаТЧ = СебестоимостьПошива.Добавить();
+-			СтрокаТЧ.СтатьяРасходов = Выборка.СтатьяРасходов;
+-			Если Выборка.Процент Тогда
+-				СтрокаТЧ.Сумма = СуммаМатериалов*Выборка.Величина;
+-			Иначе
+-				СтрокаТЧ.Сумма = Выборка.Величина;
+-			КонецЕсли;	
+-			
+-		КонецЦикла;	
+-		
+-	Иначе
+-		
+-		Запрос = Новый Запрос;
+-		Запрос.Текст = 
+-		"ВЫБРАТЬ
+-		|	СтатьиРасходов.Ссылка КАК СтатьяРасходов,
+-		|	ЕСТЬNULL(Рубэг_РасценкиСтатейРасходов.Величина, 0) КАК Величина,
+-		|	ЕСТЬNULL(Рубэг_РасценкиСтатейРасходов.Процент, ЛОЖЬ) КАК Процент
+-		|ИЗ
+-		|	Справочник.РУБЭГ_СтатьиРасходов КАК СтатьиРасходов
+-		|		ЛЕВОЕ СОЕДИНЕНИЕ РегистрСведений.Рубэг_РасценкиСтатейРасходов.СрезПоследних(&amp;Период, ) КАК Рубэг_РасценкиСтатейРасходов
+-		|		ПО СтатьиРасходов.Ссылка = Рубэг_РасценкиСтатейРасходов.Статья
+-		|ГДЕ
+-		|	НЕ СтатьиРасходов.ЭтоГруппа
+-		|	И СтатьиРасходов.Ссылка В ИЕРАРХИИ(&amp;Группа)";
+-		
+-		Если ПошивКомплектовка = "Пошив" Тогда
+-			Запрос.УстановитьПараметр("Группа", Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000001"));
+-		ИначеЕсли ПошивКомплектовка = "Комплектовка" Тогда
+-			Запрос.УстановитьПараметр("Группа", Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000021"));
+-		ИначеЕсли ПошивКомплектовка = "ПошивКомплектовка" Тогда
+-			Массив = Новый Массив;
+-			Массив.Добавить(Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000021"));
+-			Массив.Добавить(Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000001"));
+-			Запрос.УстановитьПараметр("Группа", Массив);
+-		ИначеЕсли ПошивКомплектовка = "РасчетСтроп" Тогда
+-			Запрос.УстановитьПараметр("Группа", Справочники.РУБЭГ_СтатьиРасходов.НайтиПоКоду("000000024"));
+-		Иначе
+-			Запрос.УстановитьПараметр("Группа", Неопределено);
+-		КонецЕсли;	
+-		Запрос.УстановитьПараметр("Период", Дата);
+-		
+-		Выборка = Запрос.Выполнить().Выбрать();
+-		Пока Выборка.Следующий() Цикл
+-			
+-			СтрокаТЧ = СебестоимостьПошива.Добавить();
+-			СтрокаТЧ.СтатьяРасходов = Выборка.СтатьяРасходов;
+-			Если Выборка.Процент Тогда
+-				СтрокаТЧ.Сумма = СуммаМатериалов*Выборка.Величина;
+-			Иначе
+-				СтрокаТЧ.Сумма = Выборка.Величина;
+-			КонецЕсли;	
+-			
+-		КонецЦикла;	
+-		
+-	КонецЕсли;
+-	
+-	#Область ЗаписьСлужебныхСтатейДляФондов
+-	Сделка		 		   = Справочники.РУБЭГ_СтатьиРасходов.НайтиПоРеквизиту("Имя", "Сделка");
+-	НалогиСоСделки 		   = Справочники.РУБЭГ_СтатьиРасходов.НайтиПоРеквизиту("Имя", "НалогиСоСделки");
+-	ОтпускныеСделки		   = Справочники.РУБЭГ_СтатьиРасходов.НайтиПоРеквизиту("Имя", "СделкаОтпускные");
+-	НалогиСОтпускныхСделки = Справочники.РУБЭГ_СтатьиРасходов.НайтиПоРеквизиту("Имя", "СделкаОтпускныеЕСН");
+-	
+-	СуммаРабот 	   = СуммаТехопераций/87*100;
+-	СуммаОтпускных = СуммаРабот/(12*29.3)*28;
+-	НоваяСтрока = СебестоимостьПошива.Добавить();
+-	НоваяСтрока.СтатьяРасходов = Сделка;
+-	НоваяСтрока.Сумма 		   = СуммаРабот;
+-	
+-	НоваяСтрока = СебестоимостьПошива.Добавить();
+-	НоваяСтрока.СтатьяРасходов = НалогиСоСделки;
+-	НоваяСтрока.Сумма 		   = СуммаРабот*1.305 - СуммаРабот;
+-	
+-	НоваяСтрока = СебестоимостьПошива.Добавить();
+-	НоваяСтрока.СтатьяРасходов = ОтпускныеСделки;
+-	НоваяСтрока.Сумма 		   = СуммаОтпускных;
+-	
+-	НоваяСтрока = СебестоимостьПошива.Добавить();
+-	НоваяСтрока.СтатьяРасходов = НалогиСОтпускныхСделки;
+-	НоваяСтрока.Сумма 		   = СуммаОтпускных*1.305 - СуммаОтпускных;
+-	
+-	#КонецОбласти
+-
+ КонецПроцедуры
+</Patch>
+							</Method>
+							<Method name="УстановитьПараметрыЗапросаПоСтатьямВложений">
+								<MergeRule>GetFromSecondConfiguration</MergeRule>
+								<Patch>@@ -1,1 +1,42 @@
+ 
++Процедура УстановитьПараметрыЗапросаПоСтатьямВложений(Запрос)
++
++	Если Запрос = Неопределено Тогда
++		Запрос = Новый Запрос;
++	КонецЕсли;	
++	
++	МассивНаправлений = Новый Массив;
++	
++	//Пошив(Пошив), Комплектовка(Комплектовка), Пошив+Комплектовка(ПошивКомплектовка), Доработка(Доработка), Расчет строп(РасчетСтроп)
++	Если Площадка = "Воронеж" Тогда
++		
++		Если ПошивКомплектовка = "Пошив" Тогда
++			МассивНаправлений.Добавить(Перечисления.Рубэг_ВидыДеятельности.ШвейныйЦех);
++		ИначеЕсли ПошивКомплектовка = "Комплектовка" Тогда
++			МассивНаправлений.Добавить(Перечисления.Рубэг_ВидыДеятельности.Комплектовка);
++		ИначеЕсли ПошивКомплектовка = "ПошивКомплектовка" Тогда
++			МассивНаправлений.Добавить(Перечисления.Рубэг_ВидыДеятельности.ШвейныйЦех);
++			МассивНаправлений.Добавить(Перечисления.Рубэг_ВидыДеятельности.ШвейныйЦех);
++		ИначеЕсли ПошивКомплектовка = "РасчетСтроп" Тогда
++			МассивНаправлений.Добавить(Перечисления.Рубэг_ВидыДеятельности.Стропы);
++		Иначе 
++			//Неизвестное поведение
++		КонецЕсли;	
++		
++	ИначеЕсли Площадка = "СтОскол" Тогда
++		
++		Если ПошивКомплектовка = "Пошив" Тогда
++			МассивНаправлений.Добавить(Перечисления.Рубэг_ВидыДеятельности.Оскол);
++		ИначеЕсли ПошивКомплектовка = "Комплектовка" Тогда
++		ИначеЕсли ПошивКомплектовка = "ПошивКомплектовка" Тогда
++		ИначеЕсли ПошивКомплектовка = "РасчетСтроп" Тогда
++		Иначе 
++			//Неизвестное поведение
++		КонецЕсли;	
++		
++	КонецЕсли;
++	
++	Запрос.УстановитьПараметр("Период", Дата);
++	Запрос.УстановитьПараметр("МассивНаправлений", МассивНаправлений);
++
++КонецПроцедуры
+</Patch>
+							</Method>
+						</Methods>
+					</Module>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.Числа_НоваяАнкета.Form.УправляемаяФормаДокумента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>GetFromSecondConfiguration</MergeRule>
+					<FormModule>
+						<MergeRule>GetFromSecondConfiguration</MergeRule>
+						<Module>
+							<Methods>
+								<VariableDeclarationArea>
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</VariableDeclarationArea>
+								<MainArea>
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</MainArea>
+								<Method name="АртикулНоменклатурыНаСервере" nameInSecondConfiguration="АртикулНоменклатурыНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АртикулОбъектаНаСервере" nameInSecondConfiguration="АртикулОбъектаНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВидимостьВсехРодителейЭФ" nameInSecondConfiguration="ВидимостьВсехРодителейЭФ">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВсеРеквизитыЗаполнены" nameInSecondConfiguration="ВсеРеквизитыЗаполнены">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВыделенныйТекстЭлементовФормы" nameInSecondConfiguration="ВыделенныйТекстЭлементовФормы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДанныеФормыВДеревоЗначенийПоместитьВоВременноеХранилище" nameInSecondConfiguration="ДанныеФормыВДеревоЗначенийПоместитьВоВременноеХранилище">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьПредопределеннуюСтрокуДереваПроизводство" nameInSecondConfiguration="ДобавитьПредопределеннуюСтрокуДереваПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЕстьОшибкаДиаметраКлапанаДляЗУХ" nameInSecondConfiguration="ЕстьОшибкаДиаметраКлапанаДляЗУХ">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЕстьОшибкаЗаполененияПараметровЛоготипа" nameInSecondConfiguration="ЕстьОшибкаЗаполененияПараметровЛоготипа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЕстьПолуфабрикатыБезСпецификаций" nameInSecondConfiguration="ЕстьПолуфабрикатыБезСпецификаций">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЕстьРольПроведениеАнкеты" nameInSecondConfiguration="ЕстьРольПроведениеАнкеты">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначениеРеквизитаОбъектаСервер" nameInSecondConfiguration="ЗначениеРеквизитаОбъектаСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МатериалыТехОперацииЗаготовкиЛоготипа" nameInSecondConfiguration="МатериалыТехОперацииЗаготовкиЛоготипа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НитиДляСтроп" nameInSecondConfiguration="НитиДляСтроп">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОсновнаяСпецификацияПроизводствоВоронеж" nameInSecondConfiguration="ОсновнаяСпецификацияПроизводствоВоронеж">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОшибкаФлексопечати" nameInSecondConfiguration="ОшибкаФлексопечати">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПараметрыДереваСпецификаций" nameInSecondConfiguration="ПараметрыДереваСпецификаций">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПодобраныНеВсеМатериалыИРаботы" nameInSecondConfiguration="ПодобраныНеВсеМатериалыИРаботы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПолучитьАдресДереваУзлаВоВременноеХранилище" nameInSecondConfiguration="ПолучитьАдресДереваУзлаВоВременноеХранилище">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПолучитьГруппуПродукции" nameInSecondConfiguration="ПолучитьГруппуПродукции">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПолучитьДеревоСпецификацииДляРазузлования" nameInSecondConfiguration="ПолучитьДеревоСпецификацииДляРазузлования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПолучитьДеревоУзла" nameInSecondConfiguration="ПолучитьДеревоУзла">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПолучитьСтруктуруРеквизитовТекущегоДокумента" nameInSecondConfiguration="ПолучитьСтруктуруРеквизитовТекущегоДокумента">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоместитьВоВременноеХранилищеДеревоАналогов" nameInSecondConfiguration="ПоместитьВоВременноеХранилищеДеревоАналогов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоместитьВоВременноеХранилищеДеревоПроизводство" nameInSecondConfiguration="ПоместитьВоВременноеХранилищеДеревоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоместитьВоВременноеХранилищеПродукцияДляСчета" nameInSecondConfiguration="ПоместитьВоВременноеХранилищеПродукцияДляСчета">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоместитьВоВременоеХранилищеДеревоМатериаловЗамен" nameInSecondConfiguration="ПоместитьВоВременоеХранилищеДеревоМатериаловЗамен">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоместитьВоВременоеХранилищеДеревоРаботЗамен" nameInSecondConfiguration="ПоместитьВоВременоеХранилищеДеревоРаботЗамен">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоместитьВХранилищеСтруктуруПолуфабриката" nameInSecondConfiguration="ПоместитьВХранилищеСтруктуруПолуфабриката">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПорядокСортировкиРукавПолотно" nameInSecondConfiguration="ПорядокСортировкиРукавПолотно">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьАктуальностьЦен" nameInSecondConfiguration="ПроверитьАктуальностьЦен">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьДостаточностьМатериалов" nameInSecondConfiguration="ПроверитьДостаточностьМатериалов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьЗаполнениеРеквизитов" nameInSecondConfiguration="ПроверитьЗаполнениеРеквизитов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьЗаполнениеСвояФункция" nameInSecondConfiguration="ПроверитьЗаполнениеСвояФункция">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьПотребностьВМатериалахВФоне" nameInSecondConfiguration="ПроверитьПотребностьВМатериалахВФоне">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПродукцияНайдена" nameInSecondConfiguration="ПродукцияНайдена">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасценкаНаСервере" nameInSecondConfiguration="РасценкаНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасчитатьДопРасходы" nameInSecondConfiguration="РасчитатьДопРасходы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасчитатьДопРасходыОскол" nameInSecondConfiguration="РасчитатьДопРасходыОскол">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасчитатьПериметрПрошива" nameInSecondConfiguration="РасчитатьПериметрПрошива">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасчитатьРасходПоФормуле" nameInSecondConfiguration="РасчитатьРасходПоФормуле">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокВыбораЦветовКрасок" nameInSecondConfiguration="СписокВыбораЦветовКрасок">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СтруктураРеквизитовЭлементаБЭГа" nameInSecondConfiguration="СтруктураРеквизитовЭлементаБЭГа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СуммыУзловПодчиненныхСтрок" nameInSecondConfiguration="СуммыУзловПодчиненныхСтрок">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ФормированиеИмениЗаготовкиЛоготипа" nameInSecondConfiguration="ФормированиеИмениЗаготовкиЛоготипа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ФормированиеИмениПолуфабриката" nameInSecondConfiguration="ФормированиеИмениПолуфабриката">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЦеныУзловПодчиненныхСтрок" nameInSecondConfiguration="ЦеныУзловПодчиненныхСтрок">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЭлементПринадлежитРодителю" nameInSecondConfiguration="ЭлементПринадлежитРодителю">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АнализПодборТехМатериала" nameInSecondConfiguration="АнализПодборТехМатериала">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АнализПодборТехОперацииМатериала" nameInSecondConfiguration="АнализПодборТехОперацииМатериала">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АнализПодборТехОперацииМатериалаПоЭлементуБЭГа" nameInSecondConfiguration="АнализПодборТехОперацииМатериалаПоЭлементуБЭГа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АнализПотребностей" nameInSecondConfiguration="АнализПотребностей">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АнтистатическаяДобавкаПриИзменении" nameInSecondConfiguration="АнтистатическаяДобавкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="АнтистатическаяНитьПриИзменении" nameInSecondConfiguration="АнтистатическаяНитьПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="БандажИзТканиТелоБЭГАПриИзменении" nameInSecondConfiguration="БандажИзТканиТелоБЭГАПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="БигБЭГСбандажемПриИзменении" nameInSecondConfiguration="БигБЭГСбандажемПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВариантПришиваЛенточныхСтропыПриИзменении" nameInSecondConfiguration="ВариантПришиваЛенточныхСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВвестиЗамены" nameInSecondConfiguration="ВвестиЗамены">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВводНаименованияУзлаЗавершение" nameInSecondConfiguration="ВводНаименованияУзлаЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВидПошиваПриИзменении" nameInSecondConfiguration="ВидПошиваПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВидСтропСтрокойНачалоВыбора" nameInSecondConfiguration="ВидСтропСтрокойНачалоВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВидСтропСтрокойПриИзменении" nameInSecondConfiguration="ВидСтропСтрокойПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВидыСтропНачалоВыбора" nameInSecondConfiguration="ВидыСтропНачалоВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВкладышВшитКомплектовкаПриИзменении" nameInSecondConfiguration="ВкладышВшитКомплектовкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВкладышРаздутКомплектовкаПриИзменении" nameInSecondConfiguration="ВкладышРаздутКомплектовкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВопросЗаписатьДокументПередВводомЗамены" nameInSecondConfiguration="ВопросЗаписатьДокументПередВводомЗамены">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВопросЗаполнитьТехМатериалыЗавершение" nameInSecondConfiguration="ВопросЗаполнитьТехМатериалыЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВопросЗаполнитьТехОперацииЗавершение" nameInSecondConfiguration="ВопросЗаполнитьТехОперацииЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВопросЗапускВПроизводствоЗавершение" nameInSecondConfiguration="ВопросЗапускВПроизводствоЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВопросСоздатьПродукциюЗавершение" nameInSecondConfiguration="ВопросСоздатьПродукциюЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВопросУказанияСпецификацииДляПроизводстваЗавершение" nameInSecondConfiguration="ВопросУказанияСпецификацииДляПроизводстваЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВыборГотовойПродукцииЗавершение" nameInSecondConfiguration="ВыборГотовойПродукцииЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВыборКомплектующейЗавершение" nameInSecondConfiguration="ВыборКомплектующейЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВыборСписокВидовСтроп" nameInSecondConfiguration="ВыборСписокВидовСтроп">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВыборХарактеристикиПоОстаткамЗавершение" nameInSecondConfiguration="ВыборХарактеристикиПоОстаткамЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВысотаВерхКлапанДругоеПриИзменении" nameInSecondConfiguration="ВысотаВерхКлапанДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВысотаВрехКлапанПриИзменении" nameInSecondConfiguration="ВысотаВрехКлапанПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВысотаНизДругоеПриИзменении" nameInSecondConfiguration="ВысотаНизДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВысотаНизПриИзменении" nameInSecondConfiguration="ВысотаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВысотаОтпечаткаЛоготипПриИзменении" nameInSecondConfiguration="ВысотаОтпечаткаЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ВысотаПриИзменении" nameInSecondConfiguration="ВысотаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ГлубинаПриИзменении" nameInSecondConfiguration="ГлубинаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ГрузоподъемностьЛенточныеСтропыДругоеПриИзменении" nameInSecondConfiguration="ГрузоподъемностьЛенточныеСтропыДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ГрузоподъемностьЛенточныеСтропыПриИзменении" nameInSecondConfiguration="ГрузоподъемностьЛенточныеСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ГрузоподъемностьСтропыПриИзменении" nameInSecondConfiguration="ГрузоподъемностьСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ГруппаОсновноеПроизводствоПриСменеСтраницы" nameInSecondConfiguration="ГруппаОсновноеПроизводствоПриСменеСтраницы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДвойноеУплотнениеУШПриИзменении" nameInSecondConfiguration="ДвойноеУплотнениеУШПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДействияПриДефицитеЗавершение" nameInSecondConfiguration="ДействияПриДефицитеЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДекорацияОшибкаНажатие" nameInSecondConfiguration="ДекорацияОшибкаНажатие">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоВидовРаботВТабличнуюЧасть" nameInSecondConfiguration="ДеревоВидовРаботВТабличнуюЧасть">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоВыбратьУзел" nameInSecondConfiguration="ДеревоПроизводствоВыбратьУзел">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоКоличествоНаПартиюПриИзменении" nameInSecondConfiguration="ДеревоПроизводствоКоличествоНаПартиюПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоКоличествоПриИзменении" nameInSecondConfiguration="ДеревоПроизводствоКоличествоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоНачалоПеретаскивания" nameInSecondConfiguration="ДеревоПроизводствоНачалоПеретаскивания">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоОбработкаВыбора" nameInSecondConfiguration="ДеревоПроизводствоОбработкаВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПередНачаломДобавления" nameInSecondConfiguration="ДеревоПроизводствоПередНачаломДобавления">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПередУдалением" nameInSecondConfiguration="ДеревоПроизводствоПередУдалением">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПеретаскивание" nameInSecondConfiguration="ДеревоПроизводствоПеретаскивание">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПослеУдаления" nameInSecondConfiguration="ДеревоПроизводствоПослеУдаления">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПриАктивизацииСтроки" nameInSecondConfiguration="ДеревоПроизводствоПриАктивизацииСтроки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПриИзменении" nameInSecondConfiguration="ДеревоПроизводствоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПриНачалеРедактирования" nameInSecondConfiguration="ДеревоПроизводствоПриНачалеРедактирования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПриСменеТекущегоРодителя" nameInSecondConfiguration="ДеревоПроизводствоПриСменеТекущегоРодителя">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПроверенПриИзменении" nameInSecondConfiguration="ДеревоПроизводствоПроверенПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПроверенПриИзмененииСервер" nameInSecondConfiguration="ДеревоПроизводствоПроверенПриИзмененииСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоПроверкаПеретаскивания" nameInSecondConfiguration="ДеревоПроизводствоПроверкаПеретаскивания">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоСохранитьУзел" nameInSecondConfiguration="ДеревоПроизводствоСохранитьУзел">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоПроизводствоСохранитьУзелНаСервере" nameInSecondConfiguration="ДеревоПроизводствоСохранитьУзелНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоТехМатериаловВТабличнуюЧасть" nameInSecondConfiguration="ДеревоТехМатериаловВТабличнуюЧасть">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДеревоТехМатериаловОбъектПриИзменении" nameInSecondConfiguration="ДеревоТехМатериаловОбъектПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДиаметрТуннеляСтропыТуннельныеДругоеПриИзменении" nameInSecondConfiguration="ДиаметрТуннеляСтропыТуннельныеДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДиаметрТуннеляСтропыТуннельныеПриИзменении" nameInSecondConfiguration="ДиаметрТуннеляСтропыТуннельныеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаРадугиСтропыРадугойПриИзменении" nameInSecondConfiguration="ДлинаРадугиСтропыРадугойПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаСтропы4СтропыПриИзменении" nameInSecondConfiguration="ДлинаСтропы4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаСтропыДлиннаяЧасть4СтропыПриИзменении" nameInSecondConfiguration="ДлинаСтропыДлиннаяЧасть4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаСтропыКороткаяЧасть4СтропыПриИзменении" nameInSecondConfiguration="ДлинаСтропыКороткаяЧасть4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаСтропыПоТелу4СтропыЧерезУголПриИзменении" nameInSecondConfiguration="ДлинаСтропыПоТелу4СтропыЧерезУголПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаСтропыПоТелуСтропыРадугойПриИзменении" nameInSecondConfiguration="ДлинаСтропыПоТелуСтропыРадугойПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДлинаСтропыПриИзменении" nameInSecondConfiguration="ДлинаСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДляКомплектовкиКомлектующаяОбработкаВыбора" nameInSecondConfiguration="ДляКомплектовкиКомлектующаяОбработкаВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДляКомплектовкиКомлектующаяПриИзменении" nameInSecondConfiguration="ДляКомплектовкиКомлектующаяПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДляКомплектовкиОсновноеИзделиеПриИзменении" nameInSecondConfiguration="ДляКомплектовкиОсновноеИзделиеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДляКомплектовкиПередОкончаниемРедактирования" nameInSecondConfiguration="ДляКомплектовкиПередОкончаниемРедактирования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДляКомплектовкиПриИзменении" nameInSecondConfiguration="ДляКомплектовкиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьБлокСтрокВыходноеИзделие" nameInSecondConfiguration="ДобавитьБлокСтрокВыходноеИзделие">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьВыпускПроизводство" nameInSecondConfiguration="ДобавитьВыпускПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьКрашеныйПолуфабрикат" nameInSecondConfiguration="ДобавитьКрашеныйПолуфабрикат">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьКрашеныйПолуфабрикатНаСервере" nameInSecondConfiguration="ДобавитьКрашеныйПолуфабрикатНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьОбновитьНитьВМатериалыv11" nameInSecondConfiguration="ДобавитьОбновитьНитьВМатериалыv11">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьПолуфабрикатДоработка" nameInSecondConfiguration="ДобавитьПолуфабрикатДоработка">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьПолуфабрикатДоработкаЗавершение" nameInSecondConfiguration="ДобавитьПолуфабрикатДоработкаЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьПолуфабрикатИРазузлованиеВДеревоПроизводствоСервер" nameInSecondConfiguration="ДобавитьПолуфабрикатИРазузлованиеВДеревоПроизводствоСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьРезанныйПолуфабрикат" nameInSecondConfiguration="ДобавитьРезанныйПолуфабрикат">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДобавитьСтрокиДереваСервер" nameInSecondConfiguration="ДобавитьСтрокиДереваСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДополнительныеКомплектующиеКоличествоПриИзменении" nameInSecondConfiguration="ДополнительныеКомплектующиеКоличествоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДополнительныеКомплектующиеНоменклатураПриИзменении" nameInSecondConfiguration="ДополнительныеКомплектующиеНоменклатураПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ДополнительныеКомплектующиеПередОкончаниемРедактирования" nameInSecondConfiguration="ДополнительныеКомплектующиеПередОкончаниемРедактирования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЕстьЛоготипПриИзменении" nameInSecondConfiguration="ЕстьЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЕстьУплотнительныйШнурПриИзменении" nameInSecondConfiguration="ЕстьУплотнительныйШнурПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаготовкаТелоБЭГАПриИзменении" nameInSecondConfiguration="ЗаготовкаТелоБЭГАПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗакрытиеФормыПодбораАналогов" nameInSecondConfiguration="ЗакрытиеФормыПодбораАналогов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗакрытиеФормыПодбораАналоговСервер" nameInSecondConfiguration="ЗакрытиеФормыПодбораАналоговСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаписатьДеревоПроизводствоВТабличнуюЧасть" nameInSecondConfiguration="ЗаписатьДеревоПроизводствоВТабличнуюЧасть">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаписатьДокумент" nameInSecondConfiguration="ЗаписатьДокумент">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаписатьПродукциюДляСчета" nameInSecondConfiguration="ЗаписатьПродукциюДляСчета">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаписатьПроизводственнуюСпецификациюНаСервере" nameInSecondConfiguration="ЗаписатьПроизводственнуюСпецификациюНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьДеревоВидыРабот" nameInSecondConfiguration="ЗаполнитьДеревоВидыРабот">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьЗначенияПоУмолчаниюВерх" nameInSecondConfiguration="ЗаполнитьЗначенияПоУмолчаниюВерх">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьЗначенияПоУмолчаниюГруппаСтропы" nameInSecondConfiguration="ЗаполнитьЗначенияПоУмолчаниюГруппаСтропы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьЗначенияПоУмолчаниюНаСервере" nameInSecondConfiguration="ЗаполнитьЗначенияПоУмолчаниюНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьЗначенияПоУмолчаниюСтропы" nameInSecondConfiguration="ЗаполнитьЗначенияПоУмолчаниюСтропы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьМатериалыПоЭлементуБЭГа" nameInSecondConfiguration="ЗаполнитьМатериалыПоЭлементуБЭГа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьМатериалыУпаковкиДляДоработки" nameInSecondConfiguration="ЗаполнитьМатериалыУпаковкиДляДоработки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьМатерилыКомплектующие" nameInSecondConfiguration="ЗаполнитьМатерилыКомплектующие">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьОдноэтапныйВыпуск" nameInSecondConfiguration="ЗаполнитьОдноэтапныйВыпуск">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьОставшимися" nameInSecondConfiguration="ЗаполнитьОставшимися">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьРаботыПоЭлементуБЭГа" nameInSecondConfiguration="ЗаполнитьРаботыПоЭлементуБЭГа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьРеквизитФормыВидСтропСтрокой" nameInSecondConfiguration="ЗаполнитьРеквизитФормыВидСтропСтрокой">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТаблицуПолуфабрикатовПоДеревуПроизводства" nameInSecondConfiguration="ЗаполнитьТаблицуПолуфабрикатовПоДеревуПроизводства">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехМатериалы" nameInSecondConfiguration="ЗаполнитьТехМатериалы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехМатериалыДерево" nameInSecondConfiguration="ЗаполнитьТехМатериалыДерево">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехМатериалыНаСервере" nameInSecondConfiguration="ЗаполнитьТехМатериалыНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехОперации" nameInSecondConfiguration="ЗаполнитьТехОперации">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехОперацииМатериалы" nameInSecondConfiguration="ЗаполнитьТехОперацииМатериалы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехОперацииМатериалыКлиент" nameInSecondConfiguration="ЗаполнитьТехОперацииМатериалыКлиент">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьТехОперацииМатериалыПоЭлементуБЭГа" nameInSecondConfiguration="ЗаполнитьТехОперацииМатериалыПоЭлементуБЭГа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьЧастиБЭГОВВДереве" nameInSecondConfiguration="ЗаполнитьЧастиБЭГОВВДереве">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗапускВПроизводство" nameInSecondConfiguration="ЗапускВПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗапускВПроизводствоКлиент" nameInSecondConfiguration="ЗапускВПроизводствоКлиент">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗапускВПроизводствоСервер" nameInSecondConfiguration="ЗапускВПроизводствоСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗащитноеУстройствоВерхПриИзменении" nameInSecondConfiguration="ЗащитноеУстройствоВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗащитноеУстройствоНизПриИзменении" nameInSecondConfiguration="ЗащитноеУстройствоНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначенияПоУмолчаниюДляВерха" nameInSecondConfiguration="ЗначенияПоУмолчаниюДляВерха">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначенияПоУмолчаниюДляЛоготипа" nameInSecondConfiguration="ЗначенияПоУмолчаниюДляЛоготипа">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначенияПоУмолчаниюДляСтроп" nameInSecondConfiguration="ЗначенияПоУмолчаниюДляСтроп">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначенияПоУмолчаниюДляТипаНиза" nameInSecondConfiguration="ЗначенияПоУмолчаниюДляТипаНиза">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначенияПоУмолчаниюДляУпаковки" nameInSecondConfiguration="ЗначенияПоУмолчаниюДляУпаковки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗначенияПоУмолчаниюДляУплотнительногоШнура" nameInSecondConfiguration="ЗначенияПоУмолчаниюДляУплотнительногоШнура">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КлапанЗавязанВерхПриИзменении" nameInSecondConfiguration="КлапанЗавязанВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КлапанЗавязанКомплектовкаПриИзменении" nameInSecondConfiguration="КлапанЗавязанКомплектовкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КлапанЗавязанНизПриИзменении" nameInSecondConfiguration="КлапанЗавязанНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоБобинДляСтропыПриИзменении" nameInSecondConfiguration="КоличествоБобинДляСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоЗавязокНизПриИзменении" nameInSecondConfiguration="КоличествоЗавязокНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоЛоготипПриИзменении" nameInSecondConfiguration="КоличествоЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоПриИзменении" nameInSecondConfiguration="КоличествоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоСлоевПанелиНизПриИзменении" nameInSecondConfiguration="КоличествоСлоевПанелиНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоСлоевТканиПриИзменении" nameInSecondConfiguration="КоличествоСлоевТканиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоСторонЛоготипПриИзменении" nameInSecondConfiguration="КоличествоСторонЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоЦветовЛоготипПриИзменении" nameInSecondConfiguration="КоличествоЦветовЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КоличествоЦенаДляСчетаНажатие" nameInSecondConfiguration="КоличествоЦенаДляСчетаНажатие">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КороткаяЧастьКрестомПоДнуПриИзменении" nameInSecondConfiguration="КороткаяЧастьКрестомПоДнуПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КрайЮбкиПодшитНизПриИзменении" nameInSecondConfiguration="КрайЮбкиПодшитНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КрестомПоДну4СтропыПриИзменении" nameInSecondConfiguration="КрестомПоДну4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КрышкаКоличествоЗавязокВерхПриИзменении" nameInSecondConfiguration="КрышкаКоличествоЗавязокВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="КрышкаСОтверстиемВерхПриИзменении" nameInSecondConfiguration="КрышкаСОтверстиемВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяНизПриИзменении" nameInSecondConfiguration="ЛаминированнаяНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяПанельВерхПриИзменении" nameInSecondConfiguration="ЛаминированнаяПанельВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяПанельНиз1ПриИзменении" nameInSecondConfiguration="ЛаминированнаяПанельНиз1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяПанельНиз2ПриИзменении" nameInSecondConfiguration="ЛаминированнаяПанельНиз2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяПанельНиз3ПриИзменении" nameInSecondConfiguration="ЛаминированнаяПанельНиз3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяПанельНиз4ПриИзменении" nameInSecondConfiguration="ЛаминированнаяПанельНиз4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяПриИзменении" nameInSecondConfiguration="ЛаминированнаяПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированнаяЮбкаНизПриИзменении" nameInSecondConfiguration="ЛаминированнаяЮбкаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированныйКлапанВерхПриИзменении" nameInSecondConfiguration="ЛаминированныйКлапанВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛаминированныйКлапанНизПриИзменении" nameInSecondConfiguration="ЛаминированныйКлапанНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипФлексоформаВНаличииПриИзменении" nameInSecondConfiguration="ЛоготипФлексоформаВНаличииПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет1ДругоеПриИзменении" nameInSecondConfiguration="ЛоготипЦвет1ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет1ПриИзменении" nameInSecondConfiguration="ЛоготипЦвет1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет2ДругоеПриИзменении" nameInSecondConfiguration="ЛоготипЦвет2ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет2ПриИзменении" nameInSecondConfiguration="ЛоготипЦвет2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет3ДругоеПриИзменении" nameInSecondConfiguration="ЛоготипЦвет3ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет3ПриИзменении" nameInSecondConfiguration="ЛоготипЦвет3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет4ДругоеПриИзменении" nameInSecondConfiguration="ЛоготипЦвет4ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЛоготипЦвет4ПриИзменении" nameInSecondConfiguration="ЛоготипЦвет4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарман2ПриИзменении" nameInSecondConfiguration="МаркировкаКарман2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарман3ПриИзменении" nameInSecondConfiguration="МаркировкаКарман3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарман4ПриИзменении" nameInSecondConfiguration="МаркировкаКарман4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарманДругое1ПриИзменении" nameInSecondConfiguration="МаркировкаКарманДругое1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарманДругое2ПриИзменении" nameInSecondConfiguration="МаркировкаКарманДругое2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарманДругое3ПриИзменении" nameInSecondConfiguration="МаркировкаКарманДругое3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаКарманДругое4ПриИзменении" nameInSecondConfiguration="МаркировкаКарманДругое4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="МаркировкаЛоготипПриИзменении" nameInSecondConfiguration="МаркировкаЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НаборНитейДляСтропыВесНитейПриИзменении" nameInSecondConfiguration="НаборНитейДляСтропыВесНитейПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НаборНитейДляСтропыКоличествоПриИзменении" nameInSecondConfiguration="НаборНитейДляСтропыКоличествоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НаборНитейДляСтропыНоменклатураПриИзменении" nameInSecondConfiguration="НаборНитейДляСтропыНоменклатураПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НаборНитейДляСтропыНоменклатураПриИзмененииНаСервере" nameInSecondConfiguration="НаборНитейДляСтропыНоменклатураПриИзмененииНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НаборНитейДляСтропыОбработкаВыбора" nameInSecondConfiguration="НаборНитейДляСтропыОбработкаВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НаименованиеЛоготипПриИзменении" nameInSecondConfiguration="НаименованиеЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НюансТелоБЭГАПриИзменении" nameInSecondConfiguration="НюансТелоБЭГАПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НюансыВерхПриИзменении" nameInSecondConfiguration="НюансыВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="НюансыСтропыПриИзменении" nameInSecondConfiguration="НюансыСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьДеревоПроизводствоСУчетомАналоговСервер" nameInSecondConfiguration="ОбновитьДеревоПроизводствоСУчетомАналоговСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьЗаголовокКоличествоЦенаДляСчета" nameInSecondConfiguration="ОбновитьЗаголовокКоличествоЦенаДляСчета">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьИндексы" nameInSecondConfiguration="ОбновитьИндексы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьИндексыСтрокДереваПроизводствоРекурсивно" nameInSecondConfiguration="ОбновитьИндексыСтрокДереваПроизводствоРекурсивно">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьЦену" nameInSecondConfiguration="ОбновитьЦену">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьЦенуБезПерезаполнения" nameInSecondConfiguration="ОбновитьЦенуБезПерезаполнения">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьЦенуНаСервере" nameInSecondConfiguration="ОбновитьЦенуНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -1,6 +1,6 @@
+ 
+ &amp;НаСервере
+-Процедура ОбновитьЦенуНаСервере()
++	Процедура ОбновитьЦенуНаСервере()
+ 	
+ 	СтропаЕсть = Ложь;
+ 	Для каждого СтрокаТЧ Из Объект.СписокТехМатериалов Цикл
+@@ -11,142 +11,148 @@
+ 	КонецЦикла;
+ 	
+ 	ДокументОбъект = РеквизитФормыВЗначение("Объект");
++	ДокументОбъект.ЗаписатьМатериалыДереваПроизводство();
++	ДокументОбъект.ЗаписатьРаботыДереваПроизводство();
+ 	ДокументОбъект.РассчитатьСебетоимостьПошива();
+-	Объект.СебестоимостьПошива.Загрузить(ДокументОбъект.СебестоимостьПошива.Выгрузить());
++	ЗначениеВРеквизитФормы(ДокументОбъект,"Объект");
+ 	
+-	ФлексопечатьРасходники = Рубэг_ДополнительныеПроцедурыСервер.ПолучитьЗначениеНастройки("ЧастьБЭГАФлексопечатьРасходники");
+-	
+-	Сумма = 0;
++	СебестоимостьПошива = Объект.СебестоимостьПошива.Итог("Сумма");
+ 	Если Объект.Площадка = "Воронеж" Тогда
+-		
+-		СуммаТехОпераций = Объект.СписокТехОпераций.Итог("Сумма");
+-		СтрокиРасходники = Объект.СписокТехОпераций.НайтиСтроки(Новый Структура("ЧастьБЭГА", ФлексопечатьРасходники));
+-		Для каждого СтрокаРасходников Из СтрокиРасходники Цикл
+-			СуммаТехОпераций = СуммаТехОпераций - СтрокаРасходников.Сумма;
+-		КонецЦикла;
+-		СуммаТехОпераций = СуммаТехОпераций/87*100*1.305 + (СуммаТехОпераций/87*100*1.305)/(12*29.3)*28;
+-		
+-		Если Объект.ПошивКомплектовка = "Доработка" Тогда
+-			СуммаТехОпераций = СуммаТехОпераций / Объект.Количество;
+-		КонецЕсли;
+-		
+-		Если Объект.ПошивКомплектовка = "РасчетСтроп" Тогда
+-			СуммаТехМатериалов = Объект.НаборНитейДляСтропы.Итог("Сумма");
+-		Иначе
+-			СуммаТехМатериалов = Объект.СписокТехМатериалов.Итог("Сумма");
+-			СтрокиРасходники = Объект.СписокТехМатериалов.НайтиСтроки(Новый Структура("ЧастьБЭГА", ФлексопечатьРасходники));
+-			Для каждого СтрокаРасходников Из СтрокиРасходники Цикл
+-				СуммаТехМатериалов = СуммаТехМатериалов - СтрокаРасходников.Сумма;
+-			КонецЦикла;
+-		КонецЕсли;	
+-		
+-		Если Объект.ПошивКомплектовка = "Доработка" Тогда
+-			СуммаТехМатериалов = СуммаТехМатериалов / Объект.Количество;
+-		КонецЕсли;
+-				
+-		СуммаТехОперацийДляАкта = СуммаТехОпераций;
+-		СтоимостьАкта = РасчитатьДопРасходыОскол(СуммаТехОперацийДляАкта);
+-		
++		Объект.Цена	= ДокументОбъект.СуммаМатериалов+СебестоимостьПошива;
++		СтоимостьАкта = Объект.СебестоимостьПошива.Выгрузить(Объект.СебестоимостьПошива.НайтиСтроки(Новый Структура("НеВходитВСтоимостьАкта", Ложь)),"Сумма").Итог("Сумма");
+ 		Элементы.ДекорацияСтоимостьАктаОскол.Заголовок = "Себестоимость пошива (без НДС): "+Формат((СтоимостьАкта),"ЧДЦ=2");
+ 		Объект.ЦенаОскол = СтоимостьАкта;
+-		
+-		РасчитатьДопРасходы(СуммаТехМатериалов);
+-		
+-		СуммаВоронеж = (СуммаТехОпераций + СуммаТехМатериалов)*1.2;
+-		
+-		Если Объект.ПошивКомплектовка = "Доработка" Тогда
+-			СуммаВоронеж = СуммаВоронеж + ?(Объект.ВключатьВСтоимостьДорабатываемоеИзделие = Истина, Рубэг_АнкетаСервер.СебестоимостьИзделия(Объект.Продукция, КонецДня(Объект.Дата)), 0);
+-		КонецЕсли;
+-		
+-		РасчитатьДопРасходыОскол(СуммаТехОпераций);
+-		
+-		Если СтропаЕсть Или Объект.ПошивКомплектовка = "РасчетСтроп" Или Объект.ПошивКомплектовка = "Комплектовка" Тогда
+-			Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена: "+Формат((СуммаВоронеж),"ЧДЦ=2");
+-			Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Черный;
+-		Иначе
+-			Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена без стропы: "+Формат((СуммаВоронеж),"ЧДЦ=2");
+-			Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Красный;
+-		КонецЕсли;	
+-		Объект.Цена = СуммаВоронеж;
+-		
+ 	ИначеЕсли Объект.Площадка = "СтОскол" Тогда
+-	
+-		СуммаТехОпераций   = 0;
+-		СуммаТехМатериалов = 0;
+-		
+-		СуммаТехОпераций   = Объект.СписокТехОпераций.Итог("Сумма");
+-		СуммаТехМатериалов = Объект.СписокТехМатериалов.Итог("Сумма");
+-		РасчитатьДопРасходыОскол(СуммаТехМатериалов);
+-		
+-		СуммаОскол = (СуммаТехОпераций + СуммаТехМатериалов + 5)*1.2;
+-		
+-		Если СтропаЕсть Или Объект.ПошивКомплектовка = "РасчетСтроп" Тогда
+-			Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена: "+Формат((СуммаОскол),"ЧДЦ=2");
+-			Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Черный;
+-		Иначе
+-			Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена без стропы: "+Формат((СуммаОскол),"ЧДЦ=2");
+-			Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Красный;
+-		КонецЕсли;	
+-		Объект.Цена = СуммаОскол;
+-		
+-		СтоимостьАкта = Объект.СписокТехОпераций.Итог("Сумма");
+-		РасчитатьДопРасходыОскол(СтоимостьАкта);
+-		
++		Объект.Цена	= ДокументОбъект.СуммаМатериалов+ДокументОбъект.СуммаРабот+СебестоимостьПошива;
++		СтоимостьАкта = ДокументОбъект.СуммаРабот+Объект.СебестоимостьПошива.Выгрузить(Объект.СебестоимостьПошива.НайтиСтроки(Новый Структура("НеВходитВСтоимостьАкта", Ложь)),"Сумма").Итог("Сумма");
+ 		Элементы.ДекорацияСтоимостьАктаОскол.Заголовок = "Стоимость акта: "+Формат((СтоимостьАкта),"ЧДЦ=2");
+ 		Объект.ЦенаОскол = СтоимостьАкта;
+-		
+-	КонецЕсли;
++	КонецЕсли;	
++	Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена: "+Формат((Объект.Цена),"ЧДЦ=2");
++	Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Черный;
+ 	
+ 	
+-	Если Объект.ЕстьЛоготип Тогда
+-		Запрос = Новый Запрос;
+-		Запрос.Текст = 
+-		"ВЫБРАТЬ
+-		|	РегистрАналитикаУчетаНоменклатуры.Номенклатура КАК Номенклатура
+-		|ПОМЕСТИТЬ #Остатки
+-		|ИЗ
+-		|	РегистрНакопления.СебестоимостьТоваров.Остатки КАК СебестоимостьТоваровОстатки
+-		|		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрСведений.АналитикаУчетаНоменклатуры КАК РегистрАналитикаУчетаНоменклатуры
+-		|		ПО СебестоимостьТоваровОстатки.АналитикаУчетаНоменклатуры = РегистрАналитикаУчетаНоменклатуры.Номенклатура
+-		|ГДЕ
+-		|	СебестоимостьТоваровОстатки.РазделУчета = ЗНАЧЕНИЕ(Перечисление.РазделыУчетаСебестоимостиТоваров.ТоварыНаСкладах)
+-		|	И РегистрАналитикаУчетаНоменклатуры.Номенклатура = &amp;Продукция
+-		|	И СебестоимостьТоваровОстатки.КоличествоОстаток &gt; 0
+-		|;
+-		|
+-		|////////////////////////////////////////////////////////////////////////////////
+-		|ВЫБРАТЬ
+-		|	1 КАК Делитель,
+-		|	ЦеныНоменклатуры.Номенклатура КАК Номенклатура,
+-		|	ЦеныНоменклатуры.Цена КАК Цена
+-		|ИЗ
+-		|	РегистрСведений.ЦеныНоменклатуры КАК ЦеныНоменклатуры
+-		|ГДЕ
+-		|	ЦеныНоменклатуры.ВидЦены = &amp;ВидЦены
+-		|	И ЦеныНоменклатуры.Регистратор &lt;&gt; &amp;ТекущийДокумент
+-		|	И ЦеныНоменклатуры.Номенклатура В
+-		|			(ВЫБРАТЬ
+-		|				Т.Номенклатура
+-		|			ИЗ
+-		|				#Остатки КАК Т)";
+-		Запрос.УстановитьПараметр("ВидЦены", Справочники.ВидыЦен.НайтиПоНаименованию("Плановая себест изделия"));
+-		Запрос.УстановитьПараметр("ТекущийДокумент", Объект.Ссылка);
+-		Запрос.УстановитьПараметр("Продукция", Объект.Продукция);
+-		
+-		Результат = Запрос.Выполнить().Выгрузить();
+-		Если Результат.Количество() Тогда
+-			
+-			СтрокаРезультат = Результат.Добавить();
+-			СтрокаРезультат.Делитель	 = 1;
+-			СтрокаРезультат.Номенклатура = Объект.Продукция;
+-			СтрокаРезультат.Цена 	     = Объект.Цена;
+-			
+-			Объект.СредняяЦена = Окр(Результат.Итог("Цена")/Результат.Итог("Делитель"),2);
+-			
+-			Элементы.Элементы.ДекорацияЦенаНоменклатуры.Заголовок = Элементы.ДекорацияЦенаНоменклатуры.Заголовок + " (Средняя цена: "+Объект.СредняяЦена+")";
+-			
+-		КонецЕсли;	
+-		
+-	КонецЕсли;	
++	//ФлексопечатьРасходники = Рубэг_ДополнительныеПроцедурыСервер.ПолучитьЗначениеНастройки("ЧастьБЭГАФлексопечатьРасходники");
++	//
++	//Сумма = 0;
++	//Если Объект.Площадка = "Воронеж" Тогда
++	//	
++	//	СуммаТехОпераций = Объект.СписокТехОпераций.Итог("Сумма");
++	//	СтрокиРасходники = Объект.СписокТехОпераций.НайтиСтроки(Новый Структура("ЧастьБЭГА", ФлексопечатьРасходники));
++	//	Для каждого СтрокаРасходников Из СтрокиРасходники Цикл
++	//		СуммаТехОпераций = СуммаТехОпераций - СтрокаРасходников.Сумма;
++	//	КонецЦикла;
++	//	СуммаТехОпераций = СуммаТехОпераций/87*100*1.305 + (СуммаТехОпераций/87*100*1.305)/(12*29.3)*28;
++	//	
++	//	Если Объект.ПошивКомплектовка = "РасчетСтроп" Тогда
++	//		СуммаТехМатериалов = Объект.НаборНитейДляСтропы.Итог("Сумма");
++	//	Иначе
++	//		СуммаТехМатериалов = Объект.СписокТехМатериалов.Итог("Сумма");
++	//		СтрокиРасходники = Объект.СписокТехМатериалов.НайтиСтроки(Новый Структура("ЧастьБЭГА", ФлексопечатьРасходники));
++	//		Для каждого СтрокаРасходников Из СтрокиРасходники Цикл
++	//			СуммаТехМатериалов = СуммаТехМатериалов - СтрокаРасходников.Сумма;
++	//		КонецЦикла;
++	//	КонецЕсли;	
++	//	
++	//	СуммаТехОперацийДляАкта = СуммаТехОпераций;
++	//	СтоимостьАкта = РасчитатьДопРасходыОскол(СуммаТехОперацийДляАкта);
++	//	
++	//	Элементы.ДекорацияСтоимостьАктаОскол.Заголовок = "Себестоимость пошива (без НДС): "+Формат((СтоимостьАкта),"ЧДЦ=2");
++	//	Объект.ЦенаОскол = СтоимостьАкта;
++	//	
++	//	РасчитатьДопРасходы(СуммаТехМатериалов);
++	//	
++	//	СуммаВоронеж = (СуммаТехОпераций + СуммаТехМатериалов)*1.2;
++	//	
++	//	РасчитатьДопРасходыОскол(СуммаТехОпераций);
++	//	
++	//	Если СтропаЕсть Или Объект.ПошивКомплектовка = "РасчетСтроп" Или Объект.ПошивКомплектовка = "Комплектовка" Тогда
++	//		Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена: "+Формат((СуммаВоронеж),"ЧДЦ=2");
++	//		Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Черный;
++	//	Иначе
++	//		Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена без стропы: "+Формат((СуммаВоронеж),"ЧДЦ=2");
++	//		Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Красный;
++	//	КонецЕсли;	
++	//	Объект.Цена = СуммаВоронеж;
++	//	
++	//ИначеЕсли Объект.Площадка = "СтОскол" Тогда
++	//
++	//	СуммаТехОпераций   = 0;
++	//	СуммаТехМатериалов = 0;
++	//	
++	//	СуммаТехОпераций   = Объект.СписокТехОпераций.Итог("Сумма");
++	//	СуммаТехМатериалов = Объект.СписокТехМатериалов.Итог("Сумма");
++	//	РасчитатьДопРасходыОскол(СуммаТехМатериалов);
++	//	
++	//	СуммаОскол = (СуммаТехОпераций + СуммаТехМатериалов + 5)*1.2;
++	//	
++	//	Если СтропаЕсть Или Объект.ПошивКомплектовка = "РасчетСтроп" Тогда
++	//		Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена: "+Формат((СуммаОскол),"ЧДЦ=2");
++	//		Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Черный;
++	//	Иначе
++	//		Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена без стропы: "+Формат((СуммаОскол),"ЧДЦ=2");
++	//		Элементы.ДекорацияЦенаНоменклатуры.ЦветТекста = WebЦвета.Красный;
++	//	КонецЕсли;	
++	//	Объект.Цена = СуммаОскол;
++	//	
++	//	СтоимостьАкта = Объект.СписокТехОпераций.Итог("Сумма");
++	//	РасчитатьДопРасходыОскол(СтоимостьАкта);
++	//	
++	//	Элементы.ДекорацияСтоимостьАктаОскол.Заголовок = "Стоимость акта: "+Формат((СтоимостьАкта),"ЧДЦ=2");
++	//	Объект.ЦенаОскол = СтоимостьАкта;
++	//	
++	//КонецЕсли;
++	//
++	//
++	//Если Объект.ЕстьЛоготип Тогда
++	//	Запрос = Новый Запрос;
++	//	Запрос.Текст = 
++	//	"ВЫБРАТЬ
++	//	|	РегистрАналитикаУчетаНоменклатуры.Номенклатура КАК Номенклатура
++	//	|ПОМЕСТИТЬ #Остатки
++	//	|ИЗ
++	//	|	РегистрНакопления.СебестоимостьТоваров.Остатки КАК СебестоимостьТоваровОстатки
++	//	|		ВНУТРЕННЕЕ СОЕДИНЕНИЕ РегистрСведений.АналитикаУчетаНоменклатуры КАК РегистрАналитикаУчетаНоменклатуры
++	//	|		ПО СебестоимостьТоваровОстатки.АналитикаУчетаНоменклатуры = РегистрАналитикаУчетаНоменклатуры.Номенклатура
++	//	|ГДЕ
++	//	|	СебестоимостьТоваровОстатки.РазделУчета = ЗНАЧЕНИЕ(Перечисление.РазделыУчетаСебестоимостиТоваров.ТоварыНаСкладах)
++	//	|	И РегистрАналитикаУчетаНоменклатуры.Номенклатура = &amp;Продукция
++	//	|	И СебестоимостьТоваровОстатки.КоличествоОстаток &gt; 0
++	//	|;
++	//	|
++	//	|////////////////////////////////////////////////////////////////////////////////
++	//	|ВЫБРАТЬ
++	//	|	1 КАК Делитель,
++	//	|	ЦеныНоменклатуры.Номенклатура КАК Номенклатура,
++	//	|	ЦеныНоменклатуры.Цена КАК Цена
++	//	|ИЗ
++	//	|	РегистрСведений.ЦеныНоменклатуры КАК ЦеныНоменклатуры
++	//	|ГДЕ
++	//	|	ЦеныНоменклатуры.ВидЦены = &amp;ВидЦены
++	//	|	И ЦеныНоменклатуры.Регистратор &lt;&gt; &amp;ТекущийДокумент
++	//	|	И ЦеныНоменклатуры.Номенклатура В
++	//	|			(ВЫБРАТЬ
++	//	|				Т.Номенклатура
++	//	|			ИЗ
++	//	|				#Остатки КАК Т)";
++	//	Запрос.УстановитьПараметр("ВидЦены", Справочники.ВидыЦен.НайтиПоНаименованию("Плановая себест изделия"));
++	//	Запрос.УстановитьПараметр("ТекущийДокумент", Объект.Ссылка);
++	//	Запрос.УстановитьПараметр("Продукция", Объект.Продукция);
++	//	
++	//	Результат = Запрос.Выполнить().Выгрузить();
++	//	Если Результат.Количество() Тогда
++	//		
++	//		СтрокаРезультат = Результат.Добавить();
++	//		СтрокаРезультат.Делитель	 = 1;
++	//		СтрокаРезультат.Номенклатура = Объект.Продукция;
++	//		СтрокаРезультат.Цена 	     = Объект.Цена;
++	//		
++	//		Объект.СредняяЦена = Окр(Результат.Итог("Цена")/Результат.Итог("Делитель"),2);
++	//		
++	//		Элементы.Элементы.ДекорацияЦенаНоменклатуры.Заголовок = Элементы.ДекорацияЦенаНоменклатуры.Заголовок + " (Средняя цена: "+Объект.СредняяЦена+")";
++	//		
++	//	КонецЕсли;	
++	//	
++	//КонецЕсли;	
+ 	
+ КонецПроцедуры
+</Patch>
+								</Method>
+								<Method name="ОбновитьЦенуОсколНаСервере" nameInSecondConfiguration="ОбновитьЦенуОсколНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьЦенуСПерезаполнением" nameInSecondConfiguration="ОбновитьЦенуСПерезаполнением">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбновитьЦеныМатериаловИРабот" nameInSecondConfiguration="ОбновитьЦеныМатериаловИРабот">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбнулитьПодобранныеСтроки" nameInSecondConfiguration="ОбнулитьПодобранныеСтроки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбработатьДеревоПроизводство" nameInSecondConfiguration="ОбработатьДеревоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбработатьУдалениеВеткиДереваПроизводствоДляДоработки" nameInSecondConfiguration="ОбработатьУдалениеВеткиДереваПроизводствоДляДоработки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбработкаВыбораУзлаАнкеты" nameInSecondConfiguration="ОбработкаВыбораУзлаАнкеты">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбработкаОповещения" nameInSecondConfiguration="ОбработкаОповещения">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбработкаПерехода" nameInSecondConfiguration="ОбработкаПерехода">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОбрабочикОжиданияОбновитьСписокНезаполненных" nameInSecondConfiguration="ОбрабочикОжиданияОбновитьСписокНезаполненных">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОповещениеОВыбореПараметровАнкеты" nameInSecondConfiguration="ОповещениеОВыбореПараметровАнкеты">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОповещениеОВыбореПолуфабриката" nameInSecondConfiguration="ОповещениеОВыбореПолуфабриката">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОповещениеОЗакрытииОкнаСвязанныхАнкет" nameInSecondConfiguration="ОповещениеОЗакрытииОкнаСвязанныхАнкет">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОтметитьПодбранныеМатериалыИРаботы" nameInSecondConfiguration="ОтметитьПодбранныеМатериалыИРаботы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОтметитьПодбранныеМатериалыИРаботыСервер" nameInSecondConfiguration="ОтметитьПодбранныеМатериалыИРаботыСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОтобразитьДанныеСвязанныхАнкет" nameInSecondConfiguration="ОтобразитьДанныеСвязанныхАнкет">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОчиститьЗамены" nameInSecondConfiguration="ОчиститьЗамены">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОчиститьМатериалыИРаботы" nameInSecondConfiguration="ОчиститьМатериалыИРаботы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ОчиститьПродукциюИДеревоПроизводство" nameInSecondConfiguration="ОчиститьПродукциюИДеревоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПередЗакрытием" nameInSecondConfiguration="ПередЗакрытием">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПередЗаписью" nameInSecondConfiguration="ПередЗаписью">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПередЗаписьюНаСервере" nameInSecondConfiguration="ПередЗаписьюНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПереименоватьСтрокиПолуфабрикатовДереваПроизводство" nameInSecondConfiguration="ПереименоватьСтрокиПолуфабрикатовДереваПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПереписатьДеревоСпецификацииВДеревоПроизводство" nameInSecondConfiguration="ПереписатьДеревоСпецификацииВДеревоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПересоздатьПолуфабрикатДоработка" nameInSecondConfiguration="ПересоздатьПолуфабрикатДоработка">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПересчитатьПодобранныеСтрокиВПроизводство" nameInSecondConfiguration="ПересчитатьПодобранныеСтрокиВПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПересчитатьПодчиненныеСтрокиДереваПроизводство" nameInSecondConfiguration="ПересчитатьПодчиненныеСтрокиДереваПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПересчитатьСуммыРодителей" nameInSecondConfiguration="ПересчитатьСуммыРодителей">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПереформироватьДокументы" nameInSecondConfiguration="ПереформироватьДокументы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПереформироватьДокументыВопросЗавершение" nameInSecondConfiguration="ПереформироватьДокументыВопросЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПереформироватьДокументыСервер" nameInSecondConfiguration="ПереформироватьДокументыСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяНизПриИзменении" nameInSecondConfiguration="ПерфорированнаяНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяПанельВерхПриИзменении" nameInSecondConfiguration="ПерфорированнаяПанельВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяПанельНиз1ПриИзменении" nameInSecondConfiguration="ПерфорированнаяПанельНиз1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяПанельНиз2ПриИзменении" nameInSecondConfiguration="ПерфорированнаяПанельНиз2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяПанельНиз3ПриИзменении" nameInSecondConfiguration="ПерфорированнаяПанельНиз3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяПанельНиз4ПриИзменении" nameInSecondConfiguration="ПерфорированнаяПанельНиз4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяПриИзменении" nameInSecondConfiguration="ПерфорированнаяПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированнаяЮбкаНизПриИзменении" nameInSecondConfiguration="ПерфорированнаяЮбкаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированныйКлапанВерхПриИзменении" nameInSecondConfiguration="ПерфорированныйКлапанВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПерфорированныйКлапанНизПриИзменении" nameInSecondConfiguration="ПерфорированныйКлапанНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьКлапанаДругоеПриИзменении" nameInSecondConfiguration="ПлотностьКлапанаДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьКлапанаНизДругоеПриИзменении" nameInSecondConfiguration="ПлотностьКлапанаНизДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьКлапанаНизПриИзменении" nameInSecondConfiguration="ПлотностьКлапанаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьКлапанаПриИзменении" nameInSecondConfiguration="ПлотностьКлапанаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьКрышкиНизПриИзменении" nameInSecondConfiguration="ПлотностьКрышкиНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиДругоеПриИзменении" nameInSecondConfiguration="ПлотностьПанелиДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз1ДругоеПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз1ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз1ПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз2ДругоеПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз2ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз2ПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз3ДругоеПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз3ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз3ПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз4ДругоеПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз4ДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиНиз4ПриИзменении" nameInSecondConfiguration="ПлотностьПанелиНиз4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьПанелиПриИзменении" nameInSecondConfiguration="ПлотностьПанелиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьТканиПриИзменении" nameInSecondConfiguration="ПлотностьТканиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьТканиСтропыТуннельныеДругоеПриИзменении" nameInSecondConfiguration="ПлотностьТканиСтропыТуннельныеДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьТканиСтропыТуннельныеПриИзменении" nameInSecondConfiguration="ПлотностьТканиСтропыТуннельныеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьЮбкиНизДругоеПриИзменении" nameInSecondConfiguration="ПлотностьЮбкиНизДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлотностьЮбкиНизПриИзменении" nameInSecondConfiguration="ПлотностьЮбкиНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПлощадкаПриИзменении" nameInSecondConfiguration="ПлощадкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПодборТехНитейДляСтроп" nameInSecondConfiguration="ПодборТехНитейДляСтроп">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Подключаемый_ВыполнитьКоманду" nameInSecondConfiguration="Подключаемый_ВыполнитьКоманду">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Подключаемый_ВыполнитьКомандуНаСервере" nameInSecondConfiguration="Подключаемый_ВыполнитьКомандуНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Подключаемый_ВыполнитьПереопределяемуюКоманду" nameInSecondConfiguration="Подключаемый_ВыполнитьПереопределяемуюКоманду">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Подключаемый_ОбновитьКоманды" nameInSecondConfiguration="Подключаемый_ОбновитьКоманды">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПодобратьСоздатьГотовуюПродукцию" nameInSecondConfiguration="ПодобратьСоздатьГотовуюПродукцию">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПодобратьСоздатьГотовуюПродукциюМногоэтапнаяСпецификация" nameInSecondConfiguration="ПодобратьСоздатьГотовуюПродукциюМногоэтапнаяСпецификация">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПодшитВерхПриИзменении" nameInSecondConfiguration="ПодшитВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПодшитНизПриИзменении" nameInSecondConfiguration="ПодшитНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоказатьВыборЧастиБэгаЗавершение" nameInSecondConfiguration="ПоказатьВыборЧастиБэгаЗавершение">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПоказатьФонды" nameInSecondConfiguration="ПоказатьФонды">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПослеЗаписи" nameInSecondConfiguration="ПослеЗаписи">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПослеПроверкиДостаточностиМатериалов" nameInSecondConfiguration="ПослеПроверкиДостаточностиМатериалов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПошивКомплектовкаПриИзменении" nameInSecondConfiguration="ПошивКомплектовкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПриЗаписиНаСервере" nameInSecondConfiguration="ПриЗаписиНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПриИзмененииНоменклатурыДереваМатериаловНаСервере" nameInSecondConfiguration="ПриИзмененииНоменклатурыДереваМатериаловНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПриОткрытии" nameInSecondConfiguration="ПриОткрытии">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПриСозданииНаСервере" nameInSecondConfiguration="ПриСозданииНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -38,7 +38,7 @@
+ 	КонецЕсли;	
+ 	
+ 	ПрочитатьДеревоПроизводство();
+-	ОбновитьЦенуНаСервере();
++	//ОбновитьЦенуНаСервере();
+ 	УправлениеДоступностьюЭФ();
+ 	УправлениеВидимостьюЭФ();
+ 	УправлениеВидимостьюЭФВерх();
+@@ -51,17 +51,17 @@
+ 	ФормированиеИмениЗаготовкиЛоготипа();
+ 	УправлениеВидимостьюЭФГруппаУпаковка();
+ 	
+-	Если ПроверитьЗаполнениеРеквизитов(Истина) И Не ТолькоПросмотр Тогда
+-		ОбновитьЦенуНаСервере();
+-	Иначе
++	//Если ПроверитьЗаполнениеРеквизитов(Истина) И Не ТолькоПросмотр Тогда
++	//	ОбновитьЦенуНаСервере();
++	//Иначе
+ 		Если Объект.Площадка = "Воронеж" Тогда
+ 			Элементы.ДекорацияЦенаНоменклатуры.Заголовок   = "Цена: "+Формат((Объект.Цена),"ЧДЦ=2");
+ 			Элементы.ДекорацияСтоимостьАктаОскол.Заголовок = "Себестоимость пошива (без НДС): "+Формат((Объект.ЦенаОскол),"ЧДЦ=2");
+ 		Иначе
+ 			Элементы.ДекорацияЦенаНоменклатуры.Заголовок = "Цена: "+Формат((Объект.Цена),"ЧДЦ=2");
+-		Элементы.ДекорацияСтоимостьАктаОскол.Заголовок   = "Стоимость акта: "+Формат((Объект.ЦенаОскол),"ЧДЦ=2");
++			Элементы.ДекорацияСтоимостьАктаОскол.Заголовок   = "Стоимость акта: "+Формат((Объект.ЦенаОскол),"ЧДЦ=2");
+ 		КонецЕсли;	
+-	КонецЕсли;	
++	//КонецЕсли;	
+ 	
+ 	Если ЗначениеЗаполнено(Объект.ЦенаСУчетомЗамен) Тогда
+ 		Элементы.ДекорацияНадписьЦенаСУчетомЗамен.Заголовок = "Цена с учетом замен: "+Объект.ЦенаСУчетомЗамен;
+</Patch>
+								</Method>
+								<Method name="ПриСохраненииДанныхВНастройкахНаСервере" nameInSecondConfiguration="ПриСохраненииДанныхВНастройкахНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПриЧтенииНаСервере" nameInSecondConfiguration="ПриЧтенииНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПришивнойЛоготипПриИзменении" nameInSecondConfiguration="ПришивнойЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПришивСтропыДоВерха4СтропыДругоеПриИзменении" nameInSecondConfiguration="ПришивСтропыДоВерха4СтропыДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПришивСтропыДоВерха4СтропыПриИзменении" nameInSecondConfiguration="ПришивСтропыДоВерха4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьВозможностьРедактирования" nameInSecondConfiguration="ПроверитьВозможностьРедактирования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьЕдиницуХраненияОстатков" nameInSecondConfiguration="ПроверитьЕдиницуХраненияОстатков">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьЕдиницуХраненияОстатковНоменклатуры" nameInSecondConfiguration="ПроверитьЕдиницуХраненияОстатковНоменклатуры">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроверитьПолуфабрикатыИИхСпецификации" nameInSecondConfiguration="ПроверитьПолуфабрикатыИИхСпецификации">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПровестиДокумент" nameInSecondConfiguration="ПровестиДокумент">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПровестиДокументНаСервере" nameInSecondConfiguration="ПровестиДокументНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПровестиИЗакрыть" nameInSecondConfiguration="ПровестиИЗакрыть">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПродукцияДоработкиНачалоВыбора" nameInSecondConfiguration="ПродукцияДоработкиНачалоВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПродукцияДоработкиПриИзменении" nameInSecondConfiguration="ПродукцияДоработкиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПродукцияСтрокойНажатие" nameInSecondConfiguration="ПродукцияСтрокойНажатие">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроизводитьПоОсновнойСпецификацииПриИзменении" nameInSecondConfiguration="ПроизводитьПоОсновнойСпецификацииПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПроставитьЧастиБЭГОВДетальныхЗаписейДерева" nameInSecondConfiguration="ПроставитьЧастиБЭГОВДетальныхЗаписейДерева">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПрочитатьДеревоПроизводство" nameInSecondConfiguration="ПрочитатьДеревоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПылезащитаПоВерхнемуКлапануУШПриИзменении" nameInSecondConfiguration="ПылезащитаПоВерхнемуКлапануУШПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПылезащитаПоВсемШвамУШПриИзменении" nameInSecondConfiguration="ПылезащитаПоВсемШвамУШПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПылезащитаПоНизуУШПриИзменении" nameInSecondConfiguration="ПылезащитаПоНизуУШПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ПылезащитаПоСтропамУШПриИзменении" nameInSecondConfiguration="ПылезащитаПоСтропамУШПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РадугаСУсилениемСтропыРадугойПриИзменении" nameInSecondConfiguration="РадугаСУсилениемСтропыРадугойПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарман2ПриИзменении" nameInSecondConfiguration="РазмерКарман2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарман3ПриИзменении" nameInSecondConfiguration="РазмерКарман3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарман4ПриИзменении" nameInSecondConfiguration="РазмерКарман4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарманДругое1ПриИзменении" nameInSecondConfiguration="РазмерКарманДругое1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарманДругое2ПриИзменении" nameInSecondConfiguration="РазмерКарманДругое2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарманДругое3ПриИзменении" nameInSecondConfiguration="РазмерКарманДругое3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерКарманДругое4ПриИзменении" nameInSecondConfiguration="РазмерКарманДругое4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазмерЛоготипаПриИзменении" nameInSecondConfiguration="РазмерЛоготипаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазметкаСтроп" nameInSecondConfiguration="РазметкаСтроп">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазобратьПолуфабрикат" nameInSecondConfiguration="РазобратьПолуфабрикат">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазузловатьСтрокиДерева" nameInSecondConfiguration="РазузловатьСтрокиДерева">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РазузловатьСтрокиДереваЗамен" nameInSecondConfiguration="РазузловатьСтрокиДереваЗамен">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РаскрытьДеревоВидоРабот" nameInSecondConfiguration="РаскрытьДеревоВидоРабот">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РаскрытьДеревоТехМатериалов" nameInSecondConfiguration="РаскрытьДеревоТехМатериалов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасположениеКарман1ПриИзменении" nameInSecondConfiguration="РасположениеКарман1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасположениеКарман2ПриИзменении" nameInSecondConfiguration="РасположениеКарман2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасположениеКарман3ПриИзменении" nameInSecondConfiguration="РасположениеКарман3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасположениеКарман4ПриИзменении" nameInSecondConfiguration="РасположениеКарман4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасположениеСтропСтропыРадугойПриИзменении" nameInSecondConfiguration="РасположениеСтропСтропыРадугойПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РассчитатьВесСтропы" nameInSecondConfiguration="РассчитатьВесСтропы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РассчитатьЗавязки" nameInSecondConfiguration="РассчитатьЗавязки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РассчитатьСтоимостьКлишеЛоготип" nameInSecondConfiguration="РассчитатьСтоимостьКлишеЛоготип">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РассчитатьСтрокуТЧНитейДляСтропы" nameInSecondConfiguration="РассчитатьСтрокуТЧНитейДляСтропы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РассчитатьСтропу" nameInSecondConfiguration="РассчитатьСтропу">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="РасчетСтропЦветСтропыПриИзменении" nameInSecondConfiguration="РасчетСтропЦветСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойКлапанВерхПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойКлапанВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойКлапанНизПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойКлапанНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойНизПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойПанельВерхПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойПанельВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойПанельНиз1ПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойПанельНиз1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойПанельНиз2ПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойПанельНиз2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойПанельНиз3ПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойПанельНиз3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойПанельНиз4ПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойПанельНиз4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойДобавкойЮбкаНизПриИзменении" nameInSecondConfiguration="САнтистатическойДобавкойЮбкаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюВерхКлапанПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюВерхКлапанПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюКлапанНизПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюКлапанНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюНизПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюПанельВерхПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюПанельВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюПанельНиз1ПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюПанельНиз1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюПанельНиз2ПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюПанельНиз2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюПанельНиз3ПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюПанельНиз3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюПанельНиз4ПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюПанельНиз4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="САнтистатическойНитьюЮбкаНизПриИзменении" nameInSecondConfiguration="САнтистатическойНитьюЮбкаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СвязанныеАнкетыНажатие" nameInSecondConfiguration="СвязанныеАнкетыНажатие">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СЗащитнымУстройствомВерхПриИзменении" nameInSecondConfiguration="СЗащитнымУстройствомВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СкопироватьДеревоУзлаВДеревоПроизводство" nameInSecondConfiguration="СкопироватьДеревоУзлаВДеревоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СкопироватьСтрокиИсточникаВСтрокиПриемника" nameInSecondConfiguration="СкопироватьСтрокиИсточникаВСтрокиПриемника">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СкопироватьТекущийУзелВДерево" nameInSecondConfiguration="СкопироватьТекущийУзелВДерево">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СЛипучкамиВерхПриИзменении" nameInSecondConfiguration="СЛипучкамиВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СЛипучкамиНизПриИзменении" nameInSecondConfiguration="СЛипучкамиНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьГотовуюПродукцию" nameInSecondConfiguration="СоздатьГотовуюПродукцию">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьЗаготовкуЛоготип" nameInSecondConfiguration="СоздатьЗаготовкуЛоготип">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьЗаготовкуЛоготипНаСервере" nameInSecondConfiguration="СоздатьЗаготовкуЛоготипНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьЗаказПокупателяНаОсновании" nameInSecondConfiguration="СоздатьЗаказПокупателяНаОсновании">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьЗаказПокупателяНаОснованииНаСервере" nameInSecondConfiguration="СоздатьЗаказПокупателяНаОснованииНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьНовуюПозициюПриИзменении" nameInSecondConfiguration="СоздатьНовуюПозициюПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьНовуюПозициюПродукцииСпецификации" nameInSecondConfiguration="СоздатьНовуюПозициюПродукцииСпецификации">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьНовуюПозициюСпецификации" nameInSecondConfiguration="СоздатьНовуюПозициюСпецификации">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьНовуюПродукцию" nameInSecondConfiguration="СоздатьНовуюПродукцию">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьПолуфабрикат" nameInSecondConfiguration="СоздатьПолуфабрикат">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьПродукцию" nameInSecondConfiguration="СоздатьПродукцию">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьПродукциюПолуфабрикат" nameInSecondConfiguration="СоздатьПродукциюПолуфабрикат">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьСпецификациюДавальца" nameInSecondConfiguration="СоздатьСпецификациюДавальца">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьСпецификациюЗамены" nameInSecondConfiguration="СоздатьСпецификациюЗамены">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьСпецификациюЗаменыДавальца" nameInSecondConfiguration="СоздатьСпецификациюЗаменыДавальца">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СоздатьСпецификациюЗаменыСервер" nameInSecondConfiguration="СоздатьСпецификациюЗаменыСервер">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокВыбораЦветовСтроп" nameInSecondConfiguration="СписокВыбораЦветовСтроп">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловКоличествоПриИзменении" nameInSecondConfiguration="СписокТехМатериаловКоличествоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловНоменклатураПриИзменении" nameInSecondConfiguration="СписокТехМатериаловНоменклатураПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловПередНачаломДобавления" nameInSecondConfiguration="СписокТехМатериаловПередНачаломДобавления">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловПередОкончаниемРедактирования" nameInSecondConfiguration="СписокТехМатериаловПередОкончаниемРедактирования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловПередУдалением" nameInSecondConfiguration="СписокТехМатериаловПередУдалением">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловПриИзменении" nameInSecondConfiguration="СписокТехМатериаловПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловПроизводствоНачалоПеретаскивания" nameInSecondConfiguration="СписокТехМатериаловПроизводствоНачалоПеретаскивания">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловПроизводствоОкончаниеПеретаскивания" nameInSecondConfiguration="СписокТехМатериаловПроизводствоОкончаниеПеретаскивания">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехМатериаловЧастьБЭГАПриИзменении" nameInSecondConfiguration="СписокТехМатериаловЧастьБЭГАПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийКоличествоПриИзменении" nameInSecondConfiguration="СписокТехОперацийКоличествоПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийПередНачаломДобавления" nameInSecondConfiguration="СписокТехОперацийПередНачаломДобавления">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийПередОкончаниемРедактирования" nameInSecondConfiguration="СписокТехОперацийПередОкончаниемРедактирования">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийПередУдалением" nameInSecondConfiguration="СписокТехОперацийПередУдалением">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийПриИзменении" nameInSecondConfiguration="СписокТехОперацийПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийТехнологическаяОперацияПриИзменении" nameInSecondConfiguration="СписокТехОперацийТехнологическаяОперацияПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СписокТехОперацийЧастьБЭГАПриИзменении" nameInSecondConfiguration="СписокТехОперацийЧастьБЭГАПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СтоимостьКлишеЛоготипПриИзменении" nameInSecondConfiguration="СтоимостьКлишеЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СтоимостьСантиметраКлишеПриИзменении" nameInSecondConfiguration="СтоимостьСантиметраКлишеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="СтруктураПодчиненности" nameInSecondConfiguration="СтруктураПодчиненности">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТаблицаНезаполненныхРеквизитовВыбор" nameInSecondConfiguration="ТаблицаНезаполненныхРеквизитовВыбор">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТаблицаНезаполненныхРеквизитовЗаголовокНачалоВыбора" nameInSecondConfiguration="ТаблицаНезаполненныхРеквизитовЗаголовокНачалоВыбора">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТабличнаяЧастьВДеревоВидовРабот" nameInSecondConfiguration="ТабличнаяЧастьВДеревоВидовРабот">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТабличнаяЧастьВДеревоТехМатериалов" nameInSecondConfiguration="ТабличнаяЧастьВДеревоТехМатериалов">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипВерхаПриИзменении" nameInSecondConfiguration="ТипВерхаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипНизаПриИзменении" nameInSecondConfiguration="ТипНизаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипНити1РукиПриИзменении" nameInSecondConfiguration="ТипНити1РукиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипНити2РукиПриИзменении" nameInSecondConfiguration="ТипНити2РукиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипРасположенияКарман1ПриИзменении" nameInSecondConfiguration="ТипРасположенияКарман1ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипРасположенияКарман2ПриИзменении" nameInSecondConfiguration="ТипРасположенияКарман2ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипРасположенияКарман3ПриИзменении" nameInSecondConfiguration="ТипРасположенияКарман3ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипРасположенияКарман4ПриИзменении" nameInSecondConfiguration="ТипРасположенияКарман4ПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипТканиПриИзменении" nameInSecondConfiguration="ТипТканиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипТканиПриИзмененииНаСервере" nameInSecondConfiguration="ТипТканиПриИзмененииНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТипШваПриИзменении" nameInSecondConfiguration="ТипШваПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ТолькоПроизводство" nameInSecondConfiguration="ТолькоПроизводство">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УдалитьМатериалыИРаботыУдаляемойСтроки" nameInSecondConfiguration="УдалитьМатериалыИРаботыУдаляемойСтроки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Удлинение4СтропыЧерезУголПриИзменении" nameInSecondConfiguration="Удлинение4СтропыЧерезУголПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УдлиннениеДлинаКольцаПриИзменении" nameInSecondConfiguration="УдлиннениеДлинаКольцаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УдлиннениеПриИзменении" nameInSecondConfiguration="УдлиннениеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УпаковкаВариантПриИзменении" nameInSecondConfiguration="УпаковкаВариантПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УпаковкаМатериалПриИзменении" nameInSecondConfiguration="УпаковкаМатериалПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УпаковкаСтретчПленкаПриИзменении" nameInSecondConfiguration="УпаковкаСтретчПленкаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФ" nameInSecondConfiguration="УправлениеВидимостьюЭФ">
+									<MergeRule>DoNotMerge</MergeRule>
+									<Patch/>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФВерх" nameInSecondConfiguration="УправлениеВидимостьюЭФВерх">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФГруппаЛоготип" nameInSecondConfiguration="УправлениеВидимостьюЭФГруппаЛоготип">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФГруппаСтропы" nameInSecondConfiguration="УправлениеВидимостьюЭФГруппаСтропы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФГруппаУлотнительныйШнур" nameInSecondConfiguration="УправлениеВидимостьюЭФГруппаУлотнительныйШнур">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФГруппаУпаковка" nameInSecondConfiguration="УправлениеВидимостьюЭФГруппаУпаковка">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеВидимостьюЭФНиз" nameInSecondConfiguration="УправлениеВидимостьюЭФНиз">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УправлениеДоступностьюЭФ" nameInSecondConfiguration="УправлениеДоступностьюЭФ">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УстановитьОбменДанными" nameInSecondConfiguration="УстановитьОбменДанными">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УстановитьПризнакНеактуальностиУРодительскойСтроки" nameInSecondConfiguration="УстановитьПризнакНеактуальностиУРодительскойСтроки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УстановитьПродукциюПоОсновномуИзделиюКомплектовки" nameInSecondConfiguration="УстановитьПродукциюПоОсновномуИзделиюКомплектовки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УстановитьРеквизитКодДляКомплектующих" nameInSecondConfiguration="УстановитьРеквизитКодДляКомплектующих">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УстановитьТег" nameInSecondConfiguration="УстановитьТег">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УстановитьТеги" nameInSecondConfiguration="УстановитьТеги">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСверхуРазмер4СтропыДругоеПриИзменении" nameInSecondConfiguration="УхоСверхуРазмер4СтропыДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСверхуРазмер4СтропыПриИзменении" nameInSecondConfiguration="УхоСверхуРазмер4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСверхуРазмер4СтропыЧерезУголДругоеПриИзменении" nameInSecondConfiguration="УхоСверхуРазмер4СтропыЧерезУголДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСверхуРазмер4СтропыЧерезУголПриИзменении" nameInSecondConfiguration="УхоСверхуРазмер4СтропыЧерезУголПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСверхуСусилением4СтропыПриИзменении" nameInSecondConfiguration="УхоСверхуСусилением4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСверхуСУсилением4СтропыЧерезУголПриИзменении" nameInSecondConfiguration="УхоСверхуСУсилением4СтропыЧерезУголПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСнизуКоличество4СтропыПриИзменении" nameInSecondConfiguration="УхоСнизуКоличество4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСнизуРазмер4СтропыДругоеПриИзменении" nameInSecondConfiguration="УхоСнизуРазмер4СтропыДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСнизуРазмер4СтропыПриИзменении" nameInSecondConfiguration="УхоСнизуРазмер4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСнизуРасположение4СтропыПриИзменении" nameInSecondConfiguration="УхоСнизуРасположение4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСнизуСУсилением4СтропыПриИзменении" nameInSecondConfiguration="УхоСнизуСУсилением4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УхоСтропыПриИзменении" nameInSecondConfiguration="УхоСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="УчестьПоддоныПродукцииДляДоработки" nameInSecondConfiguration="УчестьПоддоныПродукцииДляДоработки">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ФормированиеИмени" nameInSecondConfiguration="ФормированиеИмени">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЦветНити1РукиПриИзменении" nameInSecondConfiguration="ЦветНити1РукиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЦветНити2РукиПриИзменении" nameInSecondConfiguration="ЦветНити2РукиПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЦветСтропы4СтропыПриИзменении" nameInSecondConfiguration="ЦветСтропы4СтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЦветСтропы4СтропыЧерезУголПриИзменении" nameInSecondConfiguration="ЦветСтропы4СтропыЧерезУголПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаКлапанВерхДругоеПриИзменении" nameInSecondConfiguration="ШиринаКлапанВерхДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаКлапанВерхПриИзменении" nameInSecondConfiguration="ШиринаКлапанВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаНизДругоеПриИзменении" nameInSecondConfiguration="ШиринаНизДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаНизПриИзменении" nameInSecondConfiguration="ШиринаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаОтпечаткаЛоготипПриИзменении" nameInSecondConfiguration="ШиринаОтпечаткаЛоготипПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаПриИзменении" nameInSecondConfiguration="ШиринаПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаСтропыДругоеПриИзменении" nameInSecondConfiguration="ШиринаСтропыДругоеПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаСтропыПриИзменении" nameInSecondConfiguration="ШиринаСтропыПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШиринаСтропыРасчетПриИзменении" nameInSecondConfiguration="ШиринаСтропыРасчетПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ШнурЛентаУШПриИзменении" nameInSecondConfiguration="ШнурЛентаУШПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЮбкаЗавязанаВерхПриИзменении" nameInSecondConfiguration="ЮбкаЗавязанаВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЮбкаЗавязанаНизПриИзменении" nameInSecondConfiguration="ЮбкаЗавязанаНизПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЮбкаКрайПодшитВерхПриИзменении" nameInSecondConfiguration="ЮбкаКрайПодшитВерхПриИзменении">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<DirectiveArea name="АнализПотребностей" nameInSecondConfiguration="АнализПотребностей">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</DirectiveArea>
+							</Methods>
+						</Module>
+					</FormModule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="InformationRegister.Рубэг_РасценкиСтатейРасходов.Resource.Фонд_Удалить">
+			<Properties>
+				<Property name="Name">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="Synonym">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="InformationRegister.Рубэг_РасценкиСтатейРасходов.Resource.СтатьяРасходов_Удалить">
+			<Properties>
+				<Property name="Name">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="Synonym">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="InformationRegister.Рубэг_РасценкиСтатейРасходов.Form.ФормаЗаписи">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+	</Objects>
+</Settings>

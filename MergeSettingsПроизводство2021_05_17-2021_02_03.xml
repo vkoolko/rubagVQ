@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Settings xmlns="http://v8.1c.ru/8.3/config/merge/settings" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" platformVersion="8.3.11">
+	<MainConfiguration>
+		<Name>Производство</Name>
+		<Version>2021_05_17</Version>
+	</MainConfiguration>
+	<SecondConfiguration>
+		<Name>Производство</Name>
+		<Version>2021_02_03</Version>
+	</SecondConfiguration>
+	<Parameters>
+		<ConfigurationsRelation>ConfigurationsNotRelated</ConfigurationsRelation>
+		<AllowMainConfigurationObjectDeletion>false</AllowMainConfigurationObjectDeletion>
+		<CopyObjectsMode>false</CopyObjectsMode>
+	</Parameters>
+	<Objects>
+		<Configuration>
+			<Properties>
+				<Property name="Version">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Configuration>
+		<Object fullName="Subsystem.Рубэг">
+			<Properties>
+				<Property name="Content">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Subsystem.Рубэг.Subsystem.Продажи">
+			<Properties>
+				<Property name="Content">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Subsystem.Рубэг.Subsystem.ЗаказыАнкеты">
+			<Properties>
+				<Property name="CommandInterface">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.ВидыНоменклатуры">
+			<Properties>
+				<Property name="Hierarchical">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="DescriptionLength">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.ВидыНоменклатуры.Form.ФормаЭлемента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.ДоговорыКонтрагентов.Form.ФормаСписка">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.Номенклатура.Form.ФормаЭлемента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Catalog.Номенклатура.Form.ФормаВыбора">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.ЗаказКлиента.Form.ФормаДокумента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.ЗаказКлиента.Form.ФормаСпискаДокументов">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.ПриобретениеТоваровУслуг">
+			<Properties>
+				<Property name="NumberType">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="NumberLength">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="NumberAllowedLength">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="ObjectModule">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.ПриобретениеТоваровУслуг.Form.ФормаДокумента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.ПроизводствоБезЗаказа.Form.ФормаДокумента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.РеализацияТоваровУслуг">
+			<Properties>
+				<Property name="NumberType">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="NumberLength">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="NumberAllowedLength">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="ObjectModule">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+				<Property name="ManagerModule">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.РеализацияТоваровУслуг.Form.ФормаДокумента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="Document.ЭтапПроизводства2_2.Form.ФормаДокумента">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+					<FormModule>
+						<MergeRule>GetFromSecondConfiguration</MergeRule>
+						<Module>
+							<Methods>
+								<MainArea>
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</MainArea>
+								<Method name="ПолучитьТаблицаОбеспеченияПФ" nameInSecondConfiguration="ПолучитьТаблицаОбеспеченияПФ">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="ЗаполнитьНадписьПродукцияИтог" nameInSecondConfiguration="ЗаполнитьНадписьПродукцияИтог">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -1,9 +1,9 @@
+ 
+ &amp;НаСервере
+ Процедура ЗаполнитьНадписьПродукцияИтог()
+-	Текст = "Запланировано: "+Объект.Запланировано+", в документе: " + Объект.ВыходныеИзделия.Итог("Количество");	
++	Текст = "Запланировано: "+(Объект.Запланировано*Объект.Спецификация.ВыходныеИзделия[0].КоличествоУпаковок)+", в документе: " + Объект.ВыходныеИзделия.Итог("Количество");	
+ 	
+-	Отклонение = Объект.ВыходныеИзделия.Итог("Количество") - Объект.Запланировано;
++	Отклонение = Объект.ВыходныеИзделия.Итог("Количество") - Объект.Запланировано*Объект.Спецификация.ВыходныеИзделия[0].КоличествоУпаковок;
+ 	
+ 	Если Отклонение &lt;&gt; 0 Тогда
+ 		Текст = Текст + ", отклонение: " + Отклонение;
+</Patch>
+								</Method>
+								<Method name="ЗаполнитьНадписьТрудозатратыИтог" nameInSecondConfiguration="ЗаполнитьНадписьТрудозатратыИтог">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ВыходныеИзделияПослеУдаленияПосле" nameInSecondConfiguration="Рубэг_ВыходныеИзделияПослеУдаленияПосле">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ВыходныеИзделияПриОкончанииРедактированияПосле" nameInSecondConfiguration="Рубэг_ВыходныеИзделияПриОкончанииРедактированияПосле">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ЗаписатьДокументВместо">
+									<MergeRule>DoNotMerge</MergeRule>
+								</Method>
+								<Method name="Рубэг_НастроитьЭлементыФормы" nameInSecondConfiguration="Рубэг_НастроитьЭлементыФормы">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ОбеспечениеМатериаламиИРаботамиХарактеристикаНачалоВыбораВместо" nameInSecondConfiguration="Рубэг_ОбеспечениеМатериаламиИРаботамиХарактеристикаНачалоВыбораВместо">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ОбеспечениеМатериаламиИРаботамиХарактеристикаОбработкаВыбораВместо" nameInSecondConfiguration="Рубэг_ОбеспечениеМатериаламиИРаботамиХарактеристикаОбработкаВыбораВместо">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ОбработкаПроверкиЗаполненияНаСервереВместо">
+									<MergeRule>DoNotMerge</MergeRule>
+								</Method>
+								<Method name="Рубэг_ОчиститьВидыЗапасовВместо" nameInSecondConfiguration="Рубэг_ОчиститьВидыЗапасовВместо">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ОчиститьВидыЗапасовВместоНаСервере" nameInSecondConfiguration="Рубэг_ОчиститьВидыЗапасовВместоНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ПриОткрытииПосле" nameInSecondConfiguration="Рубэг_ПриОткрытииПосле">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -3,4 +3,7 @@
+ Процедура Рубэг_ПриОткрытииПосле(Отказ)
+ 	ЗаполнитьНадписьТрудозатратыИтог();
+ 	ЗаполнитьНадписьПродукцияИтог();
++	
++	ТолькоПросмотр = ТолькоПросмотр Или Объект.Рубэг_ФормироватьВиртуальныйВыпуск;
++	
+ КонецПроцедуры
+</Patch>
+								</Method>
+								<Method name="Рубэг_ПровестиДокументВместо">
+									<MergeRule>DoNotMerge</MergeRule>
+								</Method>
+								<Method name="Рубэг_ПровестиИЗакрытьВместо">
+									<MergeRule>DoNotMerge</MergeRule>
+								</Method>
+								<Method name="Рубэг_ТрудозатратыПослеУдаленияПосле" nameInSecondConfiguration="Рубэг_ТрудозатратыПослеУдаленияПосле">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_ТрудозатратыПриОкончанииРедактированияПосле" nameInSecondConfiguration="Рубэг_ТрудозатратыПриОкончанииРедактированияПосле">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_Числа_ЗаполнитьПоВыпускуВместо" nameInSecondConfiguration="Рубэг_Числа_ЗаполнитьПоВыпускуВместо">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_Числа_ЗаполнитьПоВыпускуВместоНаСервере" nameInSecondConfiguration="Рубэг_Числа_ЗаполнитьПоВыпускуВместоНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+									<Patch>@@ -31,7 +31,7 @@
+ 			ЗаполнитьЗначенияСвойств(СтрРасход, СтрОбеспечение, "Номенклатура,Характеристика,
+ 				|КоличествоУпаковок,Количество,Упаковка,Серия,СтатусУказанияСерий,СтатьяКалькуляции"); 
+ 			СтрРасход.ДатаРасхода 			= Строка.ДатаПроизводства;
+-			СтрРасход.Количество 			= СтрОбеспечение.Количество / Объект.Запланировано * Строка.Количество;
++			СтрРасход.Количество 			= СтрОбеспечение.Количество / (Объект.Запланировано*Объект.Спецификация.ВыходныеИзделия[0].КоличествоУпаковок) * Строка.Количество;
+ 			СтрРасход.КоличествоУпаковок 	= СтрРасход.Количество;
+ 		КонецЦикла;
+ 		
+</Patch>
+								</Method>
+								<Method name="Рубэг_Числа_ЗаполнитьПоВыпускуОбеспечениеВместо" nameInSecondConfiguration="Рубэг_Числа_ЗаполнитьПоВыпускуОбеспечениеВместо">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_Числа_ЗаполнитьПоВыпускуОбеспечениеВместоНаСервере" nameInSecondConfiguration="Рубэг_Числа_ЗаполнитьПоВыпускуОбеспечениеВместоНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_Числа_СократитьПроизводствоВместо" nameInSecondConfiguration="Рубэг_Числа_СократитьПроизводствоВместо">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+								<Method name="Рубэг_Числа_СократитьПроизводствоВместоНаСервере" nameInSecondConfiguration="Рубэг_Числа_СократитьПроизводствоВместоНаСервере">
+									<MergeRule>GetFromSecondConfiguration</MergeRule>
+								</Method>
+							</Methods>
+						</Module>
+					</FormModule>
+				</Property>
+			</Properties>
+		</Object>
+		<Object fullName="DataProcessor.ЖурналДокументовПродажи.Form.СписокДокументов">
+			<Properties>
+				<Property name="Form">
+					<MergeRule>DoNotMerge</MergeRule>
+				</Property>
+			</Properties>
+		</Object>
+	</Objects>
+</Settings>
