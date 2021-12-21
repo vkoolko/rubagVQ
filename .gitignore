@@ -1,3 +1,4 @@
 *.cf
 *.dt
+*.cfe
 .token
